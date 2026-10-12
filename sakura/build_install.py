@@ -18,8 +18,8 @@ os.makedirs(OUT, exist_ok=True)
 
 CDN = "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin"  # 旧图床，仅作兜底
 # 主题主脚本放在博客园自己的文件存储里（快、稳、不受 jsdelivr 影响）
-JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012j.js"
-JS_VER = "20261012j"
+JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012l.js"
+JS_VER = "20261012l"
 
 
 def load_uploaded(name):
@@ -41,9 +41,8 @@ NOT_HOME = [HEADERS[i] for i in (0, 2, 4, 7, 10, 13, 17)]
 # 首页卡片封面：素材池里挑出来的古风女子图
 # 两套风格交替排列（二次元 / 写实），避免同一类连着出现
 _COVER_A = ["a01", "a02", "a03", "a06", "a07", "a08", "a14", "a18", "a20", "a21", "a26"]
-# c06 换成重裁过的上半身版（c06b），避开原图上的「小红书」水印
-# c07 / c22 / c27 原图带明显水印，收进素材池但不做封面
-_COVER_C = ["c01", "c02", "c03", "c06b", "c09", "c10", "c14", "c18", "c19", "c28", "c30"]
+# c06 用重裁过的上半身版（c06b）；c07 / c22 / c27 原图带水印，按要求照样放进来
+_COVER_C = ["c01", "c02", "c03", "c06b", "c07", "c09", "c10", "c14", "c18", "c19", "c22", "c27", "c28", "c30"]
 COVER_ORDER = [x for pair in zip(_COVER_A, _COVER_C) for x in pair]
 COVER_ORDER += _COVER_A[len(_COVER_C):] + _COVER_C[len(_COVER_A):]
 COVERS = [COVER_MAP[name] for name in COVER_ORDER if COVER_MAP.get(name)]
@@ -80,7 +79,7 @@ NEW_LIST_JS = r'''		/**
 			}
 
 			const topImg = this.defaluts.topImg || {};
-			// 封面池：优先用素材池里的古风女子图，不够再拿头图补
+			// 封面池：之前选中的素材（女子图 + 风景头图）合成一池
 			const shufflePick = (arr) => {
 				const out = arr.slice();
 				for (let i = out.length - 1; i > 0; i -= 1) {
@@ -91,10 +90,10 @@ NEW_LIST_JS = r'''		/**
 				}
 				return out;
 			};
-			// 两组各自打乱后再拼接：每次刷新都是二次元 / 写实混着出现，
-			// 组内先去重，避免同一张图在一页里出现两次
-			const fallbacks = shufflePick(Array.from(new Set(topImg.coverImg || [])))
-					.concat(shufflePick(Array.from(new Set((topImg.homeTopImg || []).concat(topImg.notHomeTopImg || [])))));
+			// 整池去重后随机重排，每次刷新按顺序取，类别自然混着出现
+			const fallbacks = shufflePick(Array.from(new Set(
+					(topImg.coverImg || []).concat(topImg.homeTopImg || []).concat(topImg.notHomeTopImg || [])
+			)));
 			const coverOffset = 0;
 			const authorName = this.esaText($(this.cnblogs.publicProfile).find('a:eq(0)').text()) || 'leiyuanze';
 			const cards = [];

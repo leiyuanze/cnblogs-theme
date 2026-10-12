@@ -953,7 +953,7 @@
 			}
 
 			const topImg = this.defaluts.topImg || {};
-			// 封面池：优先用素材池里的古风女子图，不够再拿头图补
+			// 封面池：之前选中的素材（女子图 + 风景头图）合成一池
 			const shufflePick = (arr) => {
 				const out = arr.slice();
 				for (let i = out.length - 1; i > 0; i -= 1) {
@@ -964,10 +964,10 @@
 				}
 				return out;
 			};
-			// 两组各自打乱后再拼接：每次刷新都是二次元 / 写实混着出现，
-			// 组内先去重，避免同一张图在一页里出现两次
-			const fallbacks = shufflePick(Array.from(new Set(topImg.coverImg || [])))
-					.concat(shufflePick(Array.from(new Set((topImg.homeTopImg || []).concat(topImg.notHomeTopImg || [])))));
+			// 整池去重后随机重排，每次刷新按顺序取，类别自然混着出现
+			const fallbacks = shufflePick(Array.from(new Set(
+					(topImg.coverImg || []).concat(topImg.homeTopImg || []).concat(topImg.notHomeTopImg || [])
+			)));
 			const coverOffset = 0;
 			const authorName = this.esaText($(this.cnblogs.publicProfile).find('a:eq(0)').text()) || 'leiyuanze';
 			const PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
