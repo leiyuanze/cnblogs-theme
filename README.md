@@ -48,6 +48,8 @@ node tools\admin_deploy.js write    # 写入并保存
 - `node tools\mobile_perf.js`：手机端性能对比（资源量、首屏、长任务）
 - `node tools\verify_install.js`：本地装新包试跑（不碰线上）
 - `node tools\check_random.js`：验证封面每次刷新是否变化、手机端大标题是否溢出
+- `node tools\diag_menu.js`：手机端汉堡菜单能否展开、展开高度
+- `node tools\check_mobile_cards.js`：手机端卡片封面与正文是否重叠
 - `node tools\shoot_live2.js`：线上实拍截图（存到 `sakura/live/`）
 
 ## 关键坑（都踩过）
