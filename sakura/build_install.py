@@ -18,8 +18,8 @@ os.makedirs(OUT, exist_ok=True)
 
 CDN = "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin"  # 旧图床，仅作兜底
 # 主题主脚本放在博客园自己的文件存储里（快、稳、不受 jsdelivr 影响）
-JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012l.js"
-JS_VER = "20261012l"
+JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012m.js"
+JS_VER = "20261012m"
 
 
 def load_uploaded(name):
@@ -46,6 +46,28 @@ _COVER_C = ["c01", "c02", "c03", "c06b", "c07", "c09", "c10", "c14", "c18", "c19
 COVER_ORDER = [x for pair in zip(_COVER_A, _COVER_C) for x in pair]
 COVER_ORDER += _COVER_A[len(_COVER_C):] + _COVER_C[len(_COVER_A):]
 COVERS = [COVER_MAP[name] for name in COVER_ORDER if COVER_MAP.get(name)]
+
+# 头图下面那句签名：每次刷新随机取一条
+# （配置里用 | 拼成一串，随机逻辑在 main.js 的 mainHeader 里）
+MOTTOS = [
+    "心之所向，素履以往。",
+    "生如逆旅，一苇以航。",
+    "人生若只如初见，何事秋风悲画扇。",
+    "山有木兮木有枝，心悦君兮君不知。",
+    "落霞与孤鹜齐飞，秋水共长天一色。",
+    "醉后不知天在水，满船清梦压星河。",
+    "此心安处是吾乡。",
+    "且将新火试新茶，诗酒趁年华。",
+    "一蓑烟雨任平生。",
+    "长风破浪会有时，直挂云帆济沧海。",
+    "疏影横斜水清浅，暗香浮动月黄昏。",
+    "落花人独立，微雨燕双飞。",
+    "云想衣裳花想容，春风拂槛露华浓。",
+    "星光不问赶路人，时光不负有心人。",
+    "以梦为马，不负韶华。",
+    "愿你出走半生，归来仍是少年。",
+]
+
 PLACEHOLDER = (
     "data:image/gif;base64,"
     "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -701,6 +723,19 @@ body.esa-post-page #main {
     -webkit-overflow-scrolling: touch;
 }
 
+/* 4.5 播放器收起后只留一个 “>”（这份 APlayer.min.css 没有滑出样式，自己补上；
+   PC 和手机端一致，鼠标移上去或点一下开关就展开） */
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+    left: -66px !important;
+    bottom: 0 !important;
+    transition: left .2s;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover,
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:focus-within {
+    left: 0 !important;
+}
+
 /* 5. 手机端适配：头图高度用 svh，卡片竖排带封面 */
 @media only screen and (max-width: 767px) {
     #main {
@@ -910,17 +945,6 @@ body.esa-post-page #main {
         overflow-wrap: break-word;
     }
 
-    /* 手机端播放器收起后只留一个 “>”（班底的 APlayer 版本没有滑出样式，自己补上） */
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-        bottom: 0 !important;
-        transition: left .2s;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover,
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:focus-within {
-        left: 0 !important;
-    }
 }
 '''
 open(os.path.join(OUT, "page.css"), "w", encoding="utf-8").write(page_css)
@@ -1014,6 +1038,20 @@ js = js.replace(old_mobile_menu, new_mobile_menu)
 # 「捕获」按钮对访客没有意义，去掉
 js = js.replace("\t\t\tthis.buildToolbar();", "\t\t\t// 「捕获」按钮已移除")
 
+# 头图下面那句签名：配置里用 | 分隔多条，每次刷新随机取一条
+old_motto = "\t\t\tconst config = this.defaluts.topInfo;"
+new_motto = (
+    "\t\t\tconst config = this.defaluts.topInfo;\n"
+    "\t\t\t// 签名诗句：配置里用 | 分隔多条，每次刷新随机取一条\n"
+    "\t\t\tconst mottoList = String(config.text || '').split('|').map((s) => s.trim()).filter((s) => s);\n"
+    "\t\t\tif (mottoList.length > 1) {\n"
+    "\t\t\t\tconfig.text = mottoList[Math.floor(Math.random() * mottoList.length)];\n"
+    "\t\t\t}"
+)
+if old_motto not in js:
+    raise SystemExit("[patch] 找不到头图签名配置")
+js = js.replace(old_motto, new_motto, 1)
+
 # 文章页打标记：手机端用它把 #main 的 100vh 顶距收回头图高度
 old_post_header = "\t\tpostHeader() {\n"
 if old_post_header not in js:
@@ -1068,7 +1106,7 @@ $.silence({{
     }},
     topInfo: {{
         title: 'leiyuanze',
-        text: '心之所向，素履以往。',
+        text: '{mottos}',
         github: 'https://github.com/leiyuanze',
         weibo: '',
         telegram: '',
@@ -1085,6 +1123,7 @@ silence_config = config_tpl.format(
     cover="\n".join('            "%s",' % u for u in COVERS),
     home="\n".join('            "%s",' % u for u in HEADERS),
     not_home="\n".join('            "%s",' % u for u in NOT_HOME),
+    mottos="|".join(MOTTOS),
 )
 
 # ---------------------------------------------------------------- 侧边栏
@@ -1245,16 +1284,14 @@ __SONGS__
                 theme: '#FF85B8',
                 audio: audio
             });
-            // 手机端默认收起播放器，只留一个 ">"，不挡内容
-            if (isMobile) {
-                setTimeout(function () {
-                    var player = document.querySelector('.aplayer');
-                    var switcher = document.querySelector('.aplayer-miniswitcher');
-                    if (player && switcher && !player.classList.contains('aplayer-narrow')) {
-                        switcher.click();
-                    }
-                }, 400);
-            }
+            // 默认收起播放器，只留一个 ">"（PC 和手机端一致），不挡内容
+            setTimeout(function () {
+                var player = document.querySelector('.aplayer');
+                var switcher = document.querySelector('.aplayer-miniswitcher');
+                if (player && switcher && !player.classList.contains('aplayer-narrow')) {
+                    switcher.click();
+                }
+            }, 400);
         });
     }
 

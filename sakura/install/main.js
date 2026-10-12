@@ -857,6 +857,11 @@
 		 */
 		mainHeader() {
 			const config = this.defaluts.topInfo;
+			// 签名诗句：配置里用 | 分隔多条，每次刷新随机取一条
+			const mottoList = String(config.text || '').split('|').map((s) => s.trim()).filter((s) => s);
+			if (mottoList.length > 1) {
+				config.text = mottoList[Math.floor(Math.random() * mottoList.length)];
+			}
 			var header =
 					`<div class="headertop filter-dot">` +
 					`</div>` +
@@ -1358,16 +1363,14 @@
                 theme: '#FF85B8',
                 audio: audio
             });
-            // 手机端默认收起播放器，只留一个 ">"，不挡内容
-            if (isMobile) {
-                setTimeout(function () {
-                    var player = document.querySelector('.aplayer');
-                    var switcher = document.querySelector('.aplayer-miniswitcher');
-                    if (player && switcher && !player.classList.contains('aplayer-narrow')) {
-                        switcher.click();
-                    }
-                }, 400);
-            }
+            // 默认收起播放器，只留一个 ">"（PC 和手机端一致），不挡内容
+            setTimeout(function () {
+                var player = document.querySelector('.aplayer');
+                var switcher = document.querySelector('.aplayer-miniswitcher');
+                if (player && switcher && !player.classList.contains('aplayer-narrow')) {
+                    switcher.click();
+                }
+            }, 400);
         });
     }
 

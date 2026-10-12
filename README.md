@@ -70,11 +70,13 @@ node tools\admin_deploy.js write    # 写入并保存
 - `node tools\verify_round4.js`：整轮验收（置顶文章不再顶宽 / 播放器收起 / 封面与音乐是否混排）
 - `node tools\shoot_live2.js`：线上实拍截图（存到 `sakura/live/`）
 
-## 手机端约定
+## 播放器与签名
 
-- **播放器默认收起**：手机端初始化 APlayer 后自动切到 narrow，只留一个 `>`（`sakura/build_install.py`
-  的 mobile media query 里补了 `.aplayer-narrow .aplayer-body { left: -66px }`，
-  因为用的那份 APlayer.min.css 没有滑出样式）；PC 端保持展开。
+- **播放器默认收起（PC 和手机端一致）**：初始化 APlayer 后自动切到 narrow，只留一个 `>`。
+  用的那份 APlayer.min.css 没有滑出样式，`sakura/build_install.py` 里全局补了
+  `.aplayer-narrow .aplayer-body { left: -66px }`；鼠标悬停（PC）或点一下开关（手机）就展开。
+- **头图签名随机**：`MOTTOS` 里的 16 句诗句用 `|` 拼进配置的 `topInfo.text`，
+  `main.js` 的 `mainHeader()` 每次加载随机取一条。
 - **封面池**：`coverImg` 和头图两池各自打乱后再拼接、并去重，保证每次刷新都是
   二次元 / 写实混着出现，且封面池够用时不用头图顶替。
 - **音乐顺序**：每次刷新挑“剩下最多”的歌手、且避开上一位，避免同一个人的歌连排。

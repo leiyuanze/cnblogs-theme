@@ -3206,6 +3206,19 @@ body.esa-post-page #main {
     -webkit-overflow-scrolling: touch;
 }
 
+/* 4.5 播放器收起后只留一个 “>”（这份 APlayer.min.css 没有滑出样式，自己补上；
+   PC 和手机端一致，鼠标移上去或点一下开关就展开） */
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+    left: -66px !important;
+    bottom: 0 !important;
+    transition: left .2s;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover,
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:focus-within {
+    left: 0 !important;
+}
+
 /* 5. 手机端适配：头图高度用 svh，卡片竖排带封面 */
 @media only screen and (max-width: 767px) {
     #main {
@@ -3415,15 +3428,4 @@ body.esa-post-page #main {
         overflow-wrap: break-word;
     }
 
-    /* 手机端播放器收起后只留一个 “>”（班底的 APlayer 版本没有滑出样式，自己补上） */
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-        bottom: 0 !important;
-        transition: left .2s;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover,
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:focus-within {
-        left: 0 !important;
-    }
 }
