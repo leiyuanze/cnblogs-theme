@@ -1,0 +1,161 @@
+<!--live2d-->
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/autoload.js"></script>
+<!--live2dend-->
+
+<!--放大图片-->
+<link rel="stylesheet" type="text/css" href="https://blog-static.cnblogs.com/files/zouwangblog/zoom.css">
+<script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+<!--主题脚本：必须跟在 jQuery 1.8 之后 -->
+<script src="https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/js/main.js"></script>
+<script type="text/javascript">
+$.silence({
+    profile: {
+        enable: false
+    },
+    catalog: {
+        enable: true,
+        move: true,
+        index: true,
+        level1: 'h2',
+        level2: 'h3',
+        level3: 'h4'
+    },
+    signature: {
+        enable: true,
+        home: 'https://www.cnblogs.com/leiyuanze/',
+        license: 'CC BY 4.0',
+        link: 'https://creativecommons.org/licenses/by/4.0'
+    },
+    sponsor: {
+        enable: false
+    },
+    github: {
+        enable: true,
+        color: '#fff',
+        fill: '#FF85B8',
+        link: 'https://github.com/leiyuanze'
+    },
+    topImg: {
+        homeTopImg: [
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h01.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h02.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h03.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h04.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h05.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h06.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h07.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h08.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h09.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h10.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h11.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h12.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h13.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h14.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h15.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h16.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h17.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h18.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h19.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h20.jpg",
+        ],
+        notHomeTopImg: [
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h01.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h03.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h05.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h08.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h11.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h14.jpg",
+            "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin/headers/h18.jpg",
+        ]
+    },
+    topInfo: {
+        title: 'leiyuanze',
+        text: '心之所向，素履以往。',
+        github: 'https://github.com/leiyuanze',
+        weibo: '',
+        telegram: '',
+        music: '',
+        twitter: '',
+        zhihu: '',
+        mail: ''
+    }
+});
+</script>
+
+<script src="https://cdn.bootcss.com/bootstrap/3.2.0/js/transition.js"></script>
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/zoom.js"></script>
+<script type='text/javascript'>$('#cnblogs_post_body img').attr('data-action', 'zoom');</script>
+<!--放大图片end-->
+
+<!--鼠标特效-->
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/mouse-click.js"></script>
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+<!--鼠标特效 end-->
+
+
+<!-- Music：古风圈 + 浅影阿 + 许嵩（18 首，2026-10-11 实测可播）-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/APlayer.min.js"></script>
+<div id="player" class="aplayer aplayer-withlist aplayer-fixed"></div>
+<script>
+(function () {
+    var API = 'https://api.injahow.cn/meting/';
+    var list = [
+        { id: 3322773657, name: "游山恋", artist: "浅影阿", pic: 109951172355669080 },
+        { id: 2095876512, name: "探故知", artist: "浅影阿 / 汐音社", pic: 109951169024567662 },
+        { id: 3442248108, name: "关山酒", artist: "浅影阿", pic: 109951174022423147 },
+        { id: 3420272282, name: "牡丹亭", artist: "浅影阿", pic: 109951173739951494 },
+        { id: 3373839227, name: "春不晚", artist: "浅影阿", pic: 109951173108183621 },
+        { id: 167850, name: "庐州月", artist: "许嵩", pic: 109951172202579057 },
+        { id: 167882, name: "清明雨上", artist: "许嵩", pic: 109951172899966259 },
+        { id: 167937, name: "断桥残雪", artist: "许嵩", pic: 58274116284456 },
+        { id: 28802028, name: "山水之间", artist: "许嵩", pic: 109951172321467418 },
+        { id: 28854182, name: "惊鸿一面", artist: "许嵩 / 黄龄", pic: 109951172321467418 },
+        { id: 402073807, name: "燕归巢", artist: "许嵩", pic: 3431575794705764 },
+        { id: 411214279, name: "雅俗共赏", artist: "许嵩", pic: 3431575794705764 },
+        { id: 101131, name: "倾尽天下", artist: "河图", pic: 6049512976313503 },
+        { id: 28188434, name: "锦鲤抄", artist: "银临 / 云之泣", pic: 5859297464524710 },
+        { id: 28188427, name: "棠梨煎雪", artist: "银临", pic: 5859297464524710 },
+        { id: 2078062390, name: "典狱司", artist: "音频怪物", pic: 109951168881672971 },
+        { id: 409654891, name: "故梦", artist: "双笙", pic: 109951168638984216 },
+        { id: 39224244, name: "狐言", artist: "河图 / 洛天依", pic: 109951167999122273 }
+    ];
+    var audio = list.map(function (s) {
+        return {
+            name: s.name,
+            artist: s.artist,
+            url: API + '?server=netease&type=url&id=' + s.id,
+            cover: API + '?server=netease&type=pic&id=' + s.pic,
+            lrc: API + '?server=netease&type=lrc&id=' + s.id
+        };
+    });
+    window.addEventListener('load', function () {
+        if (window.APlayer) {
+            new APlayer({
+                container: document.getElementById('player'),
+                fixed: true,
+                listFolded: true,
+                theme: '#FF85B8',
+                audio: audio
+            });
+        }
+    });
+})();
+</script>
+<!-- Music end -->
+
+
+<!--雪花特效-->
+<div class="Snow">
+    <canvas id="Snow"></canvas>
+</div>
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/xue.js"></script>
+
+
+<!--顶部加载条-->
+<link rel="stylesheet" href="https://blog-static.cnblogs.com/files/zouwangblog/nprogress.css">
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/nprogress.js"></script>
+<script>
+NProgress.start();
+NProgress.done();
+</script>

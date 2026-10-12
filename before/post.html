@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />            
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <title>数值方法 4.23 课堂作业 —— EM算法（E步） - leiyuanze - 博客园</title>
+    <meta name="keywords" content="题解" />
+    <meta name="description" content="数值方法 4.23 课堂作业 —— EM算法（E步） 注：本文 极有可能 含有 AI 生成的内容，请仔细甄别（ 问题描述 在一个封闭盒子中，有两类外观完全相同但内部均匀程度不同的硬币，记作 A 和 B。 已知初始猜测： A 类硬币在盒子中的占比：\(40\%\) 投掷 A 硬币正面向上的概率：\(8" />    
+    <meta property="og:description" content="数值方法 4.23 课堂作业 —— EM算法（E步） 注：本文 极有可能 含有 AI 生成的内容，请仔细甄别（ 问题描述 在一个封闭盒子中，有两类外观完全相同但内部均匀程度不同的硬币，记作 A 和 B。 已知初始猜测： A 类硬币在盒子中的占比：\(40\%\) 投掷 A 硬币正面向上的概率：\(8" />
+    <meta property="og:image" content="https://assets.cnblogs.com/images/wechat-share.jpg" />
+    <meta property="bytedance:published_time" content="2026-05-02T23:12:00+08:00" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=6O_Ku8w_jYd3yw2BX9ElmxGv25AYbAQ-F6ZeOeZfxYc" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=X2uwYHAKzGGLEaiB5SRZOPRR3jYJaSqk7tr8ptQin1s" />
+    <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="/css/hljs/cnblogs.css?v=5J1NDtbnnIr2Rc2SdhEMlMxD4l9Eydj88B31E7_NhS4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/leiyuanze/custom.css?v=f1fPKfbDRwmx6n3gQEeCWKuk4TQ=" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-simplememory-mobile.min.css?v=efOGRGI0dxQ__xm2NVyuTk32wtXIiSFGaudtlfkc2H8" />
+    
+    <link id="favicon" rel="icon" type="image/x-icon" sizes="32x32" href="https://assets.cnblogs.com/favicon_v3_3.ico" />
+    <link id="favicon_svg" rel="icon" type="image/svg+xml" href="https://assets.cnblogs.com/favicon_v3_3.svg" />
+    <link rel="apple-touch-icon" href="https://assets.cnblogs.com/apple-touch-icon.png?v=2" />
+    <link rel="canonical" href="https://www.cnblogs.com/leiyuanze/p/19967007" />
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/leiyuanze/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/leiyuanze/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/leiyuanze/wlwmanifest.xml" />
+    
+    <script type="application/ld&#x2B;json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": "https://www.cnblogs.com/leiyuanze/p/19967007",
+      "headline": "数值方法 4.23 课堂作业 —— EM算法（E步）",
+      "description": "数值方法 4.23 课堂作业 —— EM算法（E步） 注：本文 极有可能 含有 AI 生成的内容，请仔细甄别（ 问题描述 在一个封闭盒子中，有两类外观完全相同但内部均匀程度不同的硬币，记作 A 和 B。 已知初始猜测： A 类硬币在盒子中的占比：\\(40\\%\\) 投掷 A 硬币正面向上的概率：\\(8",
+      "image": [
+        
+      ],
+      "author": {
+        "@type": "Person",
+        "@id": "https://www.cnblogs.com/leiyuanze/",
+        "name": "leiyuanze",
+        "url": "https://www.cnblogs.com/leiyuanze/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.cnblogs.com/",
+        "name": "博客园",
+        "url": "https://www.cnblogs.com/"
+      },
+      "datePublished": "2026-05-02T23:12:00.0000000&#x2B;08:00",
+      "dateModified": "2026-05-02T23:13:00.0000000&#x2B;08:00",
+      "wordCount": "2478",
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.cnblogs.com/leiyuanze/",
+        "name": "leiyuanze",
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.cnblogs.com/",
+          "name": "博客园"
+        }
+      }
+    }
+    </script>
+
+    <script>
+        var currentBlogId = 549282;
+        var currentBlogApp = 'leiyuanze';
+        var isLogined = false;
+        var isBlogOwner = false;
+        window.isCorp = false;
+        window.skinName = 'SimpleMemory';
+        var visitorUserId = '';
+        window.hasCustomScript = true;
+        window.cb_enable_mathjax = true;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = true;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+        window.enableMacStyleCodeBlock = false;        
+    </script>
+        <script>
+            window.currentPostId = 19967007;
+            window.currentPostDateAdded = '2026-05-02 23:12';
+        </script>
+    <script src="https://assets.cnblogs.com/scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn-www.cnblogs.com/js/blog-common.min.js?v=SoK2Dqp_vhnKN7C8t0-eyHD8CRPuRo_u4Rdl0uIeQlo"></script>
+        <script>updateCustomBlogReferrer();</script>
+    
+</head>
+<body class="skin-simplememory no-navbar mathjax2">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="//assets.cnblogs.com/logo.svg" alt="博客园logo" />
+                    </a>
+                </li>
+                <li><a href="https://cnblogs.vip/">会员</a></li>
+                <li><a href="https://cnblogs.vip/store">周边</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>                
+                <li><a href="https://www.cnblogs.com/cmt/p/19316348">赞助商</a></li>
+                <li><a href="https://chat2db-ai.com/" target="_blank">Chat2DB</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search dropdown" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" autocomplete="off" />
+                        <button id="zzk_search_button" onclick="window.navbarSearchManager.triggerActiveOption()">
+                            <img id="search_icon" class="focus-hidden" src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                            <img class="hidden focus-visible" src="//assets.cnblogs.com/icons/enter.svg" alt="搜索" />
+                        </button>
+                        <ul id="navbar_search_options" class="dropdown-menu quick-search-menu">
+                            <li tabindex="0" class="active" onclick="zzkSearch(event, document.getElementById('zzk_search_input').value)">
+                                <div class="keyword-wrapper">
+                                    <img src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                                    <div class="keyword"></div>
+                                </div>
+                                <span class="search-area">所有博客</span>
+                            </li>
+                                    <li tabindex="1" onclick="zzkBlogSearch(event, 'leiyuanze', document.getElementById('zzk_search_input').value)">
+                                        <div class="keyword-wrapper">
+                                            <img src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                                            <div class="keyword"></div>
+                                        </div>
+                                        <span class="search-area">当前博客</span>
+                                    </li>
+                        </ul>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://www.cnblogs.com/my" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/message.svg" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="//assets.cnblogs.com/icons/lite-mode-on.svg" alt="简洁模式" />
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="//assets.cnblogs.com/icons/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://www.cnblogs.com/my">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="https://vip.cnblogs.com/my">会员中心</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+
+    <div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/leiyuanze/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/leiyuanze">leiyuanze</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div>
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/leiyuanze/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/leiyuanze">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/leiyuanze/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div>
+	</div>
+</div>
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                <a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19967007" title="发布于 2026-05-02 23:12">
+    
+
+    <span role="heading" aria-level="2">数值方法 4.23 课堂作业 —— EM算法（E步）</span>
+    
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h1 id="数值方法-423-课堂作业--em算法e步">数值方法 4.23 课堂作业 —— EM算法（E步）</h1>
+<p><s>注：本文 <strong>极有可能</strong> 含有 AI 生成的内容，请仔细甄别（</s></p>
+<h2 id="问题描述">问题描述</h2>
+<p>在一个封闭盒子中，有两类外观完全相同但内部均匀程度不同的硬币，记作 A 和 B。<br>
+已知初始猜测：</p>
+<ul>
+<li>A 类硬币在盒子中的占比：<span class="math inline">\(40\%\)</span></li>
+<li>投掷 A 硬币正面向上的概率：<span class="math inline">\(80\%\)</span></li>
+<li>投掷 B 硬币正面向上的概率：<span class="math inline">\(30\%\)</span></li>
+</ul>
+<p>记正面向上、反面向上分别为 <span class="math inline">\(H,T\)</span></p>
+<p>我们投掷一次硬币，结果为<strong>正面向上</strong>。</p>
+<hr>
+<h2 id="第1问">第（1）问</h2>
+<p><strong>已知</strong>：</p>
+<p></p><div class="math display">\[P(A) = 0.4,\quad P(B) = 0.6 \\
+P(H \mid A) = 0.8,\quad P(H \mid B) = 0.3
+\]</div><p></p><p><strong>求</strong>：$ P(A \mid H) $</p>
+<p><strong>解</strong>（EM算法中的E步，即贝叶斯公式）：</p>
+<p></p><div class="math display">\[\begin{aligned}
+P(A \mid H) 
+&amp;= \frac{P(H \mid A)P(A)}{P(H \mid A)P(A) + P(H \mid B)P(B)} \\
+&amp;= \frac{0.8 \times 0.4}{0.8 \times 0.4 + 0.3 \times 0.6} \\
+&amp;= 0.64
+\end{aligned}
+\]</div><p></p><p><strong>答案</strong>：这枚硬币属于 A 类的概率是 <strong>0.64</strong>。</p>
+<hr>
+<h2 id="第2问">第（2）问</h2>
+<p><strong>修改条件</strong>（仅改变正面概率）：</p>
+<p></p><div class="math display">\[P(H \mid A) = 0.9,\quad P(H \mid B) = 0.01
+\]</div><p></p><p>其余不变：<span class="math inline">\(P(A) = 0.4,\quad P(B) = 0.6\)</span></p>
+<p><strong>求解</strong>：</p>
+<p></p><div class="math display">\[P(A \mid H) = \frac{0.9 \times 0.4 = 0.36}{0.36 + 0.01 \times 0.6 = 0.366} \approx 0.9836
+\]</div><p></p><p><strong>答案</strong>：约为 <strong>0.9836</strong>。</p>
+<blockquote>
+<p>所以观测到正面，极有可能是 A。</p>
+</blockquote>
+<hr>
+<h2 id="第3问">第（3）问</h2>
+<p><strong>修改条件</strong>（仅改变先验占比）：</p>
+<p></p><div class="math display">\[P(A) = 0.1,\quad P(B) = 0.9
+\]</div><p></p><p><strong>求解</strong>：</p>
+<p></p><div class="math display">\[P(A \mid H) = \frac{0.8 \times 0.1 = 0.08}{0.08 + 0.3 \times 0.9 = 0.35} \approx 0.2286
+\]</div><p></p><p><strong>答案</strong>：约为 <strong>0.2286</strong>。</p>
+<blockquote>
+<p>即使观测到正面，由于 A 本身非常稀少，其后验概率仍然不高。</p>
+</blockquote>
+<hr>
+<h2 id="第4问em算法e步的数学含义及初始值影响">第（4）问：EM算法E步的数学含义及初始值影响</h2>
+<h3 id="e步的数学含义">E步的数学含义</h3>
+<p>在 EM 算法中，<strong>E步（Expectation Step）</strong> 的核心是：</p>
+<blockquote>
+<p>利用当前模型参数的估计值，计算 <strong>隐变量</strong> 在给定观测数据下的 <strong>后验概率分布</strong> 。</p>
+</blockquote>
+<p>本题中：</p>
+<ul>
+<li>隐变量：硬币属于 A 还是 B</li>
+<li>观测数据：一次正面</li>
+<li>当前参数：$ P(A), P(B), P(H \mid A), P(H \mid B) $</li>
+<li>E步输出：$ P(A \mid H) $</li>
+</ul>
+<p>数学上就是 <strong>贝叶斯公式</strong>：</p>
+<p></p><div class="math display">\[P(Z \mid X, \theta) = \frac{P(X \mid Z, \theta) P(Z \mid \theta)}{\sum_Z P(X \mid Z, \theta) P(Z \mid \theta)}
+\]</div><p></p><h3 id="不同初始值对em的影响">不同初始值对EM的影响</h3>
+<table>
+<thead>
+<tr>
+<th>初始参数变化</th>
+<th>对 E 步结果的影响</th>
+<th>对最终参数估计的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$ P(H \mid A) $ 偏高</td>
+<td>后验概率更倾向于 A</td>
+<td>可能高估 A 的正面概率</td>
+</tr>
+<tr>
+<td>$ P(H \mid A) $ 偏低</td>
+<td>后验概率更倾向于 B</td>
+<td>可能低估 A 的正面概率</td>
+</tr>
+<tr>
+<td>$ P(A) $ 先验偏低</td>
+<td>即使看到正面，A 的后验仍偏低</td>
+<td>需要更多证据才能纠正</td>
+</tr>
+<tr>
+<td>极端初始值（如 $ P(H \mid B) \to 0 $）</td>
+<td>E 步输出极端结果</td>
+<td>可能陷入局部最优或收敛变慢</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心规律</strong>：</p>
+<ul>
+<li>EM 算法对初始值 <strong>敏感</strong></li>
+<li>不同初始值可能导致收敛到<strong>不同局部最优</strong></li>
+<li>E 步本质是“用当前信念更新对隐变量的认知”</li>
+<li>多轮迭代可以部分修正初始偏差，但无法保证全局最优</li>
+</ul>
+<hr>
+<h2 id="第5问多次投掷">第（5）问：多次投掷</h2>
+<ul>
+<li>同一枚硬币，独立投掷 3 次，结果为：<strong>正、反、正（H, T, H）</strong></li>
+<li>使用第（1）问中的初始参数：</li>
+</ul>
+<p></p><div class="math display">\[P(A)=0.4,\quad P(H \mid A)=0.8,\quad P(H \mid B)=0.3
+\]</div><p></p><p>计算似然</p>
+<p></p><div class="math display">\[P(HTH \mid A) = 0.8 \times (1-0.8) \times 0.8 = 0.8 \times 0.2 \times 0.8 = 0.128\\
+P(HTH \mid B) = 0.3 \times (1-0.3) \times 0.3 = 0.3 \times 0.7 \times 0.3 = 0.063
+\]</div><p></p><p><strong>求解</strong>:</p>
+<p></p><div class="math display">\[P(A \mid HTH) = \frac{0.128 \times 0.4 = 0.0512}{0.0512 + 0.063 \times 0.6 = 0.0890} \approx 0.5753
+\]</div><p></p><p><strong>答案</strong>：约为 <strong>0.5753</strong>。</p>
+<blockquote>
+<p>解释：单次正面时 $ P(A \mid H)=0.64 $，加入反面观测后，由于反面更支持 B（B 出反概率 0.7 &gt; A 出反概率 0.2），A 的后验概率下降至 0.575。</p>
+</blockquote>
+
+
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo" class="post-meta-container">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date" data-last-update-days="0.0006944444444444445" data-date-updated="2026-05-02 23:13">2026-05-02 23:12</span>&nbsp;
+<a href="https://www.cnblogs.com/leiyuanze">leiyuanze</a>&nbsp;
+阅读(<span id="post_view_count">22</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(19967007);return false;">收藏</a>&nbsp;
+<a href="https://report.cnblogs.com?targetLink=https%3A%2F%2Fwww.cnblogs.com%2Fleiyuanze%2Fp%2F19967007&targetId=19967007&targetType=0" target="_blank">举报</a>
+</div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script>
+    var cb_entryId = 19967007, cb_entryCreatedDate = '2026-05-02 23:12', cb_postType = 1, cb_postTitle = '数值方法 4.23 课堂作业 —— EM算法（E步）';
+    var allowComments = true, cb_blogId = 549282, cb_blogApp = 'leiyuanze', cb_blogUserGuid = '6ee5886a-e862-40be-b852-08d74319cd87';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");    
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav">
+        <div class="comment-nav-right">
+            <span id="span_refresh_tips"></span><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a>
+        </div>
+    </div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+        <div id="blog_c1" class="under-post-card below-post-card">
+            <a href="https://ais.cn/u/3Qf22e" rel="nofollow" target="_blank" onclick="countCreativeClicks('C1-艾思科蓝')">
+                <img src="https://img2024.cnblogs.com/blog/35695/202610/35695-20261011145556115-1699157507.webp" onload="countCreativeImpressions('C1-艾思科蓝')" alt="" style="width:300px!important;height:250px!important;min-width:300px!important;max-width:300px!important;" />
+                <span id="c1_impression" style="display:none"></span>
+            </a>
+        </div>
+    <div id="under_post_card1"></div>
+    <div id="related_posts_card"></div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card below-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+            setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+            LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div>
+	</div>
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+    <h3 class="catListTitle">公告</h3>
+<div id="blog-news" class="sidebar-news">
+    <div id="sidebar_news_container">
+    </div>
+</div>
+<script>loadBlogNews();</script>
+
+
+</div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+					<script>loadBlogSideColumn()</script>
+			</div>			
+		</div>
+	</div>
+	<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	<div id="footer">
+		<a href="https://www.cnblogs.com/" id="footer_site_link" class="footer-brand">博客园</a>
+<span class="footer-copyright"> &nbsp;&copy;&nbsp; 2004-2026</span>
+<br /><span class="footer-icp">
+    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011771"><img src="//assets.cnblogs.com/images/ghs.png" />浙公网安备 33010602011771号</a>
+    <a href="https://beian.miit.gov.cn" target="_blank">浙ICP备2021040463号-3</a>
+</span>
+
+
+
+	</div>
+</div>
+
+
+
+    <div id="page_end_html">
+        
+<!--添加站点统计-->
+<div id="cnzzProtocol"  style="display: none;">
+    <span class="id_cnzz_stat_icon" id='cnzz_stat_icon_你的id'></span>
+    <script src='https://v1.cnzz.com/z_stat.php?id=你的id&online=1&show=line' type='text/javascript'></script>
+</div>
+
+<!--图片放放大效果-->
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/jajian/img.enlarge.js"></script>
+<div id="outerdiv" style="text-align: center;position: fixed;z-index: 1000;top: 0;left: 0;
+    width: 100%;height: 100%;background-color: rgba(255,255,255,.9);">
+    <img id="bigimg" style="height: auto;width: 65%;border: 5px solid #7e8c8d; 
+        margin: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;" src="" />
+</div>
+
+<!--设置鼠标吸附效果-->
+<script id="c_n_script" src="https://blog-static.cnblogs.com/files/xiaokang01/js.js" color="240,230,140" opacity="1" count="75" zindex="-2">if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+} else {}</script>
+
+
+
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8Ow5-In01nBEvFwaadRGjqGJV5GCb9vK7fyZ5tqS6er9X8ED7t0wcdpbeash2MfP0opqwkiOebQUfvnaA5dstLEHDfOlKNPrKsrzZil7eB0wLjxhYchMzw6PkJA5-WUOr84CJA_ZH_uOQzJYJy418pA" />
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+<script defer src="https://lf1-cdn-tos.bytegoofy.com/goofy/ttzz/push.js?32d945448dd797af605da9156763de3dc11c9886368d0f917d6388e4fcf5542030632485602430134f60bc55ca391050b680e2741bf7233a8f1da9902314a3fa" id="ttzz"></script>
+</body>
+</html>

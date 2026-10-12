@@ -1,0 +1,44 @@
+<!-- 古风音乐播放器：APlayer + Meting（接口 injahow，2026-10-11 实测全部可播放） -->
+<!-- 用法：整段粘贴到博客园后台「设置 -> 页脚 HTML 代码」。需要已开通 JS 权限。 -->
+<!-- 备选歌单：古风&中国风精选 598 首（含许嵩）id=172775352，API 改成 type=playlist&id=172775352 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<div id="guofeng-player" style="position:fixed;left:18px;bottom:18px;z-index:9999;width:min(340px,72vw)"></div>
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script>
+(function () {
+  var API = 'https://api.injahow.cn/meting/';
+  var list = [
+    { id: 3322773657, name: '游山恋', artist: '浅影阿', pic: 109951172355669080 },
+    { id: 2095876512, name: '探故知', artist: '浅影阿 / 汐音社', pic: 109951169024567662 },
+    { id: 3442248108, name: '关山酒', artist: '浅影阿', pic: 109951174022423147 },
+    { id: 3420272282, name: '牡丹亭', artist: '浅影阿', pic: 109951173739951494 },
+    { id: 3373839227, name: '春不晚', artist: '浅影阿', pic: 109951173108183621 },
+    { id: 167850, name: '庐州月', artist: '许嵩', pic: 109951172202579057 },
+    { id: 167882, name: '清明雨上', artist: '许嵩', pic: 109951172899966259 },
+    { id: 167937, name: '断桥残雪', artist: '许嵩', pic: 58274116284456 },
+    { id: 28802028, name: '山水之间', artist: '许嵩', pic: 109951172321467418 },
+    { id: 28854182, name: '惊鸿一面', artist: '许嵩 / 黄龄', pic: 109951172321467418 },
+    { id: 402073807, name: '燕归巢', artist: '许嵩', pic: 3431575794705764 },
+    { id: 411214279, name: '雅俗共赏', artist: '许嵩', pic: 3431575794705764 },
+    { id: 101131, name: '倾尽天下', artist: '河图', pic: 6049512976313503 },
+    { id: 28188434, name: '锦鲤抄', artist: '银临 / 云之泣', pic: 5859297464524710 },
+    { id: 28188427, name: '棠梨煎雪', artist: '银临', pic: 5859297464524710 },
+    { id: 2078062390, name: '典狱司', artist: '音频怪物', pic: 109951168881672971 },
+    { id: 409654891, name: '故梦', artist: '双笙', pic: 109951168638984216 },
+    { id: 39224244, name: '狐言', artist: '河图 / 洛天依', pic: 109951167999122273 }
+  ];
+  var audio = list.map(function (s) {
+    return {
+      name: s.name,
+      artist: s.artist,
+      url: API + '?server=netease&type=url&id=' + s.id,
+      cover: API + '?server=netease&type=pic&id=' + s.pic,
+      lrc: API + '?server=netease&type=lrc&id=' + s.id
+    };
+  });
+  var holder = document.getElementById('guofeng-player');
+  if (holder && window.APlayer) {
+    new APlayer({ container: holder, theme: '#b03a2e', lrcType: 3, audio: audio });
+  }
+})();
+</script>

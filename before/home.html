@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />            
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <title>leiyuanze - 博客园</title>
+    
+        
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=6O_Ku8w_jYd3yw2BX9ElmxGv25AYbAQ-F6ZeOeZfxYc" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=X2uwYHAKzGGLEaiB5SRZOPRR3jYJaSqk7tr8ptQin1s" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/leiyuanze/custom.css?v=f1fPKfbDRwmx6n3gQEeCWKuk4TQ=" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-simplememory-mobile.min.css?v=efOGRGI0dxQ__xm2NVyuTk32wtXIiSFGaudtlfkc2H8" />
+    
+    <link id="favicon" rel="icon" type="image/x-icon" sizes="32x32" href="https://assets.cnblogs.com/favicon_v3_3.ico" />
+    <link id="favicon_svg" rel="icon" type="image/svg+xml" href="https://assets.cnblogs.com/favicon_v3_3.svg" />
+    <link rel="apple-touch-icon" href="https://assets.cnblogs.com/apple-touch-icon.png?v=2" />
+    <link rel="canonical" href="https://www.cnblogs.com/leiyuanze" />
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/leiyuanze/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/leiyuanze/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/leiyuanze/wlwmanifest.xml" />
+    
+
+    <script>
+        var currentBlogId = 549282;
+        var currentBlogApp = 'leiyuanze';
+        var isLogined = false;
+        var isBlogOwner = false;
+        window.isCorp = false;
+        window.skinName = 'SimpleMemory';
+        var visitorUserId = '';
+        window.hasCustomScript = true;
+        window.cb_enable_mathjax = true;
+        window.mathEngine = 0;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = true;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+        window.enableMacStyleCodeBlock = false;        
+    </script>
+    <script src="https://assets.cnblogs.com/scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn-www.cnblogs.com/js/blog-common.min.js?v=SoK2Dqp_vhnKN7C8t0-eyHD8CRPuRo_u4Rdl0uIeQlo"></script>
+        <script>updateCustomBlogReferrer();</script>
+    
+</head>
+<body class="skin-simplememory no-navbar mathjax2">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="//assets.cnblogs.com/logo.svg" alt="博客园logo" />
+                    </a>
+                </li>
+                <li><a href="https://cnblogs.vip/">会员</a></li>
+                <li><a href="https://cnblogs.vip/store">周边</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-q')">博问</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="countClicks('nav', 'skin-navbar-ing')">闪存</a></li>                
+                <li><a href="https://www.cnblogs.com/cmt/p/19316348">赞助商</a></li>
+                <li><a href="https://chat2db-ai.com/" target="_blank">Chat2DB</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search dropdown" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" autocomplete="off" />
+                        <button id="zzk_search_button" onclick="window.navbarSearchManager.triggerActiveOption()">
+                            <img id="search_icon" class="focus-hidden" src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                            <img class="hidden focus-visible" src="//assets.cnblogs.com/icons/enter.svg" alt="搜索" />
+                        </button>
+                        <ul id="navbar_search_options" class="dropdown-menu quick-search-menu">
+                            <li tabindex="0" class="active" onclick="zzkSearch(event, document.getElementById('zzk_search_input').value)">
+                                <div class="keyword-wrapper">
+                                    <img src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                                    <div class="keyword"></div>
+                                </div>
+                                <span class="search-area">所有博客</span>
+                            </li>
+                                    <li tabindex="1" onclick="zzkBlogSearch(event, 'leiyuanze', document.getElementById('zzk_search_input').value)">
+                                        <div class="keyword-wrapper">
+                                            <img src="//assets.cnblogs.com/icons/search.svg" alt="搜索" />
+                                            <div class="keyword"></div>
+                                        </div>
+                                        <span class="search-area">当前博客</span>
+                                    </li>
+                        </ul>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://www.cnblogs.com/my" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="//assets.cnblogs.com/icons/message.svg" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="//assets.cnblogs.com/icons/lite-mode-on.svg" alt="简洁模式" />
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="//assets.cnblogs.com/icons/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://www.cnblogs.com/my">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="https://vip.cnblogs.com/my">会员中心</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+
+    <div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/leiyuanze/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/leiyuanze">leiyuanze</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div>
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/leiyuanze/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/leiyuanze">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/leiyuanze/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div>
+	</div>
+</div>
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+<div class="day pinned" role="article" aria-describedby="postlist_description_17492419">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2023/06/19"></a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle pinned-post" href="https://www.cnblogs.com/leiyuanze/p/17492419.html">
+    <span>
+            <span class="pinned-post-mark">[置顶]</span>
+        杂题3
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_17492419">
+摘要：        
+## $\text{CF547D Mike and Fish}$ 对于横坐标相同的点两两连边，剩下一个点不管，纵坐标同理 这样形成的图是二分图，因为一个点只会在横轴上连出一条边，纵轴上连出一条边。最后黑白染色即可 ## $\text{CF547E Mike and Friends}$ 差分询问，考虑    <a href="https://www.cnblogs.com/leiyuanze/p/17492419.html" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2023-06-19 22:28
+leiyuanze
+<span data-post-id="17492419" class="post-view-count">阅读(70)</span>
+<span data-post-id="17492419" class="post-comment-count">评论(0)</span>
+<span data-post-id="17492419" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day pinned" role="article" aria-describedby="postlist_description_17275061">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2023/03/31"></a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle pinned-post" href="https://www.cnblogs.com/leiyuanze/p/17275061.html">
+    <span>
+            <span class="pinned-post-mark">[置顶]</span>
+        杂题2
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_17275061">
+摘要：        
+$\text{QOJ 5458. Shortest Path Query}$ 首先想到每次询问在 $\text{DAG}$ 上 $dp$ 一次求最短路 这是没法优化的 考虑预处理到 $i$ 可能经过的黑白边数 即预处理 $f_{i,j}$ 表示经过 $j$ 条黑边到 $i$ 所需经过的最少白边数量     <a href="https://www.cnblogs.com/leiyuanze/p/17275061.html" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2023-03-31 08:30
+leiyuanze
+<span data-post-id="17275061" class="post-view-count">阅读(165)</span>
+<span data-post-id="17275061" class="post-comment-count">评论(0)</span>
+<span data-post-id="17275061" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day pinned" role="article" aria-describedby="postlist_description_16859601">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2022/11/05"></a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle pinned-post" href="https://www.cnblogs.com/leiyuanze/p/16859601.html">
+    <span>
+            <span class="pinned-post-mark">[置顶]</span>
+        杂题1
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_16859601">
+摘要：        
+$\text{[AGC034C] Tests}$ 很容想到二分答案和 $c_i$ 比较固定的选取方法 然后就不会了。。。 接下来就是要发现性质的时候 固定答案时，若此时已有了一组 $a$，考虑对于 $0&lt;a_i,a_j&lt;X$ 的 $a_i,a_j$ 加减 $1$ 发现给 $c$ 值大的 $+1$，小    <a href="https://www.cnblogs.com/leiyuanze/p/16859601.html" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2022-11-05 07:23
+leiyuanze
+<span data-post-id="16859601" class="post-view-count">阅读(133)</span>
+<span data-post-id="16859601" class="post-comment-count">评论(0)</span>
+<span data-post-id="16859601" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19967007">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2026/05/02">2026年5月2日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19967007">
+    <span>
+        数值方法 4.23 课堂作业 —— EM算法（E步）
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19967007">
+摘要：        
+数值方法 4.23 课堂作业 —— EM算法（E步） 注：本文 极有可能 含有 AI 生成的内容，请仔细甄别（ 问题描述 在一个封闭盒子中，有两类外观完全相同但内部均匀程度不同的硬币，记作 A 和 B。 已知初始猜测： A 类硬币在盒子中的占比：\(40\%\) 投掷 A 硬币正面向上的概率：\(8    <a href="https://www.cnblogs.com/leiyuanze/p/19967007" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2026-05-02 23:12
+leiyuanze
+<span data-post-id="19967007" class="post-view-count">阅读(22)</span>
+<span data-post-id="19967007" class="post-comment-count">评论(0)</span>
+<span data-post-id="19967007" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19897005">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2026/04/20">2026年4月20日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19897005">
+    <span>
+        深度学习第二次作业 ResNet 实践报告
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19897005">
+摘要：        
+任务描述 用 \(\text{pytorch}\) 实现卷积神经网络，对 CIFAR-10 数据集进行分类 CIFAR-10 数据集包含 \(60000\) 张 \(32 \times 32\) 彩色图像，分为 \(10\) 个类别，每个类别有 \(60000\) 张图像。其中 \(50000\)     <a href="https://www.cnblogs.com/leiyuanze/p/19897005" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2026-04-20 20:10
+leiyuanze
+<span data-post-id="19897005" class="post-view-count">阅读(15)</span>
+<span data-post-id="19897005" class="post-comment-count">评论(0)</span>
+<span data-post-id="19897005" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19856224">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2026/04/12">2026年4月12日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19856224">
+    <span>
+        垃圾邮件自动过滤？成功了！！——朴素贝叶斯算法科普
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19856224">
+摘要：        
+引子 你的邮箱是否经常遭遇一堆邮件的狂轰滥炸？看到未读邮件数量突破四位数大关是否有种无力感？要命的是其中很多都是垃圾邮件，毫无价值，可你又不得不一个个地点开确认，以免错过重要邮件。 那么你很幸运，今天我们将揭秘垃圾邮件过滤系统背后的数学原理，高中生就能学会，超简单的哦！(๑•̀ㅂ•́)و✧ 良心知识    <a href="https://www.cnblogs.com/leiyuanze/p/19856224" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2026-04-12 21:18
+leiyuanze
+<span data-post-id="19856224" class="post-view-count">阅读(34)</span>
+<span data-post-id="19856224" class="post-comment-count">评论(0)</span>
+<span data-post-id="19856224" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19826590">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2026/04/06">2026年4月6日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19827073">
+    <span>
+        深度学习第一次作业 torch_mnist 实验报告
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19827073">
+摘要：        
+任务描述 使用 Pytorch 训练 MNIST 数据集的 MLP 模型 最终版本：网络结构 \(\text{[784, 512, 256, 10]}\)，Adam 优化器，lr=0.001，添加了 Dropout层 \(\text{[0.3, 0.5]}\)，最终测试准确率 \(98.14\%\)    <a href="https://www.cnblogs.com/leiyuanze/p/19827073" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2026-04-06 21:30
+leiyuanze
+<span data-post-id="19827073" class="post-view-count">阅读(37)</span>
+<span data-post-id="19827073" class="post-comment-count">评论(0)</span>
+<span data-post-id="19827073" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19826590">
+    <span>
+        深度学习第一次作业 np_mnist 实验报告
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19826590">
+摘要：        
+任务描述 用 numpy 实现训练 MLP 网络识别手写数字 MNIST 最终版本：网络结构 \(\text{[784, 512, 256, 10]}\)，损失函数设定为交叉熵函数 cross_entropy，激活函数设定为 ReLU，输出层激活函数采用 softmax，学习率 0.01，最终在测试    <a href="https://www.cnblogs.com/leiyuanze/p/19826590" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2026-04-06 16:14
+leiyuanze
+<span data-post-id="19826590" class="post-view-count">阅读(30)</span>
+<span data-post-id="19826590" class="post-comment-count">评论(0)</span>
+<span data-post-id="19826590" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19726978">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2026/03/16">2026年3月16日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19726978">
+    <span>
+        pca学习笔记
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19726978">
+摘要：        
+主成分分析 \(\text{(PCA)}\) 算法学习笔记 \(\text{PCA}\) 应用场景 \(\text{deepseek}\) 给的回答 给定一个包含多个特征的高维数据集（例如学生的多科成绩、城市的各项经济指标等），希望利用 PCA 找到少数几个综合指标（主成分），既能最大程度保留原始数    <a href="https://www.cnblogs.com/leiyuanze/p/19726978" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2026-03-16 23:22
+leiyuanze
+<span data-post-id="19726978" class="post-view-count">阅读(118)</span>
+<span data-post-id="19726978" class="post-comment-count">评论(0)</span>
+<span data-post-id="19726978" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19283999">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2025/11/28">2025年11月28日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19283999">
+    <span>
+        学习小组11.28
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19283999">
+该文被密码保护。    <a href="https://www.cnblogs.com/leiyuanze/p/19283999" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2025-11-28 19:47
+leiyuanze
+<span data-post-id="19283999" class="post-view-count">阅读(5)</span>
+<span data-post-id="19283999" class="post-comment-count">评论(0)</span>
+<span data-post-id="19283999" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19258628">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2025/11/22">2025年11月22日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19258628">
+    <span>
+        学习小组11.23
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19258628">
+该文被密码保护。    <a href="https://www.cnblogs.com/leiyuanze/p/19258628" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2025-11-22 22:08
+leiyuanze
+<span data-post-id="19258628" class="post-view-count">阅读(36)</span>
+<span data-post-id="19258628" class="post-comment-count">评论(0)</span>
+<span data-post-id="19258628" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_19054910">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2025/11/12">2025年11月12日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19213146">
+    <span>
+        语法记录
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19213146">
+摘要：        
+\(\texttt{title}\) 计概与数算行末不要空格！！！ 字符串与字符数组 cin &gt;&gt; str //字符与字符串，不含空格、制表符与换行 scanf(&quot;%c&quot;, &amp;ch) //读单个字符 ch scanf(&quot; %c&quot;, &amp;ch) //字符数组，忽略前面的空格与换行 scanf(&quot;,%c&quot;    <a href="https://www.cnblogs.com/leiyuanze/p/19213146" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2025-11-12 20:14
+leiyuanze
+<span data-post-id="19213146" class="post-view-count">阅读(30)</span>
+<span data-post-id="19213146" class="post-comment-count">评论(0)</span>
+<span data-post-id="19213146" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/19054910">
+    <span>
+        军训简记
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_19054910">
+摘要：        
+8.23 上午海军 和平方舟 故事，大白，吉布提南丁格尔奖得主分发糖果，校长感叹，唯有中国。各地医疗救治，5年，50年感恩，不忘中国恩，免费红薯，中国红旗摩托车队相送。真正的人道主义和大国担当，同时承担文化传播与交流使命 红一连 红色基因与革命精神代代相传，红底碗具体物象承载爱国思想这一抽象概念，支    <a href="https://www.cnblogs.com/leiyuanze/p/19054910" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2025-11-12 09:49
+leiyuanze
+<span data-post-id="19054910" class="post-view-count">阅读(39)</span>
+<span data-post-id="19054910" class="post-comment-count">评论(0)</span>
+<span data-post-id="19054910" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_18939307">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2025/06/20">2025年6月20日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/18939307">
+    <span>
+        编译器配置
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_18939307">
+摘要：        
+-std=c++11 -Wl,--stack,16777216    <a href="https://www.cnblogs.com/leiyuanze/p/18939307" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2025-06-20 21:52
+leiyuanze
+<span data-post-id="18939307" class="post-view-count">阅读(37)</span>
+<span data-post-id="18939307" class="post-comment-count">评论(0)</span>
+<span data-post-id="18939307" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_17405952">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2023/05/16">2023年5月16日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/17405952.html">
+    <span>
+        LG P5410 【模板】扩展 KMP（Z 函数）
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_17405952">
+摘要：        
+$\text{template}$ 注意 z[1]=n，从下标 $2$ 开始求 z！！ $\text{Code}$ #include &lt;bits/stdc++.h&gt; using namespace std; typedef long long LL; const int N = 2e7 + 5; i    <a href="https://www.cnblogs.com/leiyuanze/p/17405952.html" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2023-05-16 16:05
+leiyuanze
+<span data-post-id="17405952" class="post-view-count">阅读(76)</span>
+<span data-post-id="17405952" class="post-comment-count">评论(0)</span>
+<span data-post-id="17405952" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_17389467">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2023/05/10">2023年5月10日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/17389467.html">
+    <span>
+        读书笔记
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_17389467">
+摘要：        
+《挪威的森林》 村上春树 The reason why I told you that I like you It doesn&#39;t have to be with you I just hope that in the future you In times of low life Don&#39;t lo    <a href="https://www.cnblogs.com/leiyuanze/p/17389467.html" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2023-05-10 21:52
+leiyuanze
+<span data-post-id="17389467" class="post-view-count">阅读(242)</span>
+<span data-post-id="17389467" class="post-comment-count">评论(0)</span>
+<span data-post-id="17389467" class="post-digg-count">推荐(0)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+<div class="day" role="article" aria-describedby="postlist_description_17334907">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/leiyuanze/p/archive/2023/04/20">2023年4月20日
+</a>
+    </div>
+
+        <div class="postTitle" role="heading" aria-level="2">
+            <a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/leiyuanze/p/17334907.html">
+    <span>
+        CF1767F Two Subtrees
+    </span>
+    
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+<div class="c_b_p_desc" id="postlist_description_17334907">
+摘要：        
+$\text{Solution}$ 高维莫队的一次尝试 最小众数似乎要求我们刻画能回滚的高维莫队 但这并不友好 修改有 $O(n^{\frac 7 4})$，询问只有 $O(n)$ 考虑友好的分块，那么就加个值域分块 询问便可以先得到众数的出现次数，然后逐块枚举找到存在众数的块，再在块中枚举数判断是    <a href="https://www.cnblogs.com/leiyuanze/p/17334907.html" class="c_b_p_desc_readmore">阅读全文</a>
+</div>
+
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2023-04-20 16:05
+leiyuanze
+<span data-post-id="17334907" class="post-view-count">阅读(97)</span>
+<span data-post-id="17334907" class="post-comment-count">评论(0)</span>
+<span data-post-id="17334907" class="post-digg-count">推荐(1)</span>
+
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/leiyuanze?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div>
+	</div>
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+    <h3 class="catListTitle">公告</h3>
+<div id="blog-news" class="sidebar-news">
+    <div id="sidebar_news_container">
+    </div>
+</div>
+<script>loadBlogNews();</script>
+
+
+</div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+					<script>loadBlogSideColumn()</script>
+			</div>			
+		</div>
+	</div>
+	<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	<div id="footer">
+		<a href="https://www.cnblogs.com/" id="footer_site_link" class="footer-brand">博客园</a>
+<span class="footer-copyright"> &nbsp;&copy;&nbsp; 2004-2026</span>
+<br /><span class="footer-icp">
+    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011771"><img src="//assets.cnblogs.com/images/ghs.png" />浙公网安备 33010602011771号</a>
+    <a href="https://beian.miit.gov.cn" target="_blank">浙ICP备2021040463号-3</a>
+</span>
+
+
+
+	</div>
+</div>
+
+
+
+    <div id="page_end_html">
+        
+<!--添加站点统计-->
+<div id="cnzzProtocol"  style="display: none;">
+    <span class="id_cnzz_stat_icon" id='cnzz_stat_icon_你的id'></span>
+    <script src='https://v1.cnzz.com/z_stat.php?id=你的id&online=1&show=line' type='text/javascript'></script>
+</div>
+
+<!--图片放放大效果-->
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/jajian/img.enlarge.js"></script>
+<div id="outerdiv" style="text-align: center;position: fixed;z-index: 1000;top: 0;left: 0;
+    width: 100%;height: 100%;background-color: rgba(255,255,255,.9);">
+    <img id="bigimg" style="height: auto;width: 65%;border: 5px solid #7e8c8d; 
+        margin: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;" src="" />
+</div>
+
+<!--设置鼠标吸附效果-->
+<script id="c_n_script" src="https://blog-static.cnblogs.com/files/xiaokang01/js.js" color="240,230,140" opacity="1" count="75" zindex="-2">if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+} else {}</script>
+
+
+
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8Ow5-In01nBEvFwaadRGjqFy7s86Osr6Wod3ZIRh_fF2OaeEojR_jmuz2TeLKheWQNa1IVQ7V4L0TPBq-nIbtIrJsOnX70AnJqw0TJWZB0rdH9hBeGOV5pbh8a8YM2224uTzqPVe1xewBGD3u9tgnk0" />
+    <script defer src="https://hm.baidu.com/hm.js?866c9be12d4a814454792b1fd0fed295"></script>
+<script defer src="https://lf1-cdn-tos.bytegoofy.com/goofy/ttzz/push.js?32d945448dd797af605da9156763de3dc11c9886368d0f917d6388e4fcf5542030632485602430134f60bc55ca391050b680e2741bf7233a8f1da9902314a3fa" id="ttzz"></script>
+</body>
+</html>

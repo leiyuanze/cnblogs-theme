@@ -1,0 +1,17 @@
+# 依赖
+tools/node_modules/
+
+# 候选素材池（体积大，不进源码仓库）
+guofeng/
+sakura/headers-web/
+
+# 截图：线上实拍 / 参考站对照 / 后台操作
+sakura/live/
+sakura/ref/
+sakura/*.png
+sakura/backup-live/
+
+# 系统文件
+__pycache__/
+*.pyc
+.DS_Store
