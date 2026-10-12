@@ -41,7 +41,8 @@ NOT_HOME = [HEADERS[i] for i in (0, 2, 4, 7, 10, 13, 17)]
 # 首页卡片封面：素材池里挑出来的古风女子图
 COVER_ORDER = [
     "a01", "a02", "a03", "a06", "a07", "a08", "a14", "a18", "a20", "a21", "a26",
-    "c01", "c02", "c03", "c06", "c07", "c09", "c10", "c14", "c18", "c19", "c22", "c27", "c28", "c30",
+    "c01", "c02", "c03", "c06", "c09", "c10", "c14", "c18", "c19", "c28", "c30",
+    # c07 / c22 / c27 原图带明显水印，收进素材池但不做封面
 ]
 COVERS = [COVER_MAP[name] for name in COVER_ORDER if COVER_MAP.get(name)]
 PLACEHOLDER = (
