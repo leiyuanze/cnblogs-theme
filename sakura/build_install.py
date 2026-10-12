@@ -9,18 +9,41 @@
 """
 import os
 import re
+import json
 
 BASE = r"D:\leiyuanze\cnblogs-beautify\sakura"
 SRC = os.path.join(BASE, "zouwang")
 OUT = os.path.join(BASE, "install")
 os.makedirs(OUT, exist_ok=True)
 
-CDN = "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin"
+CDN = "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin"  # 旧图床，仅作兜底
 # 主题主脚本放在博客园自己的文件存储里（快、稳、不受 jsdelivr 影响）
-JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012e.js"
-JS_VER = "20261012e"
-HEADERS = [f"{CDN}/headers/h{i:02d}.jpg" for i in range(1, 21)]
+JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012f.js"
+JS_VER = "20261012f"
+
+
+def load_uploaded(name):
+    """读取 tools/upload_images.js 生成的 名称->图床URL 映射。"""
+    path = os.path.join(BASE, name)
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    return {}
+
+
+HEADER_MAP = load_uploaded("uploaded-headers.json")
+COVER_MAP = load_uploaded("uploaded-covers.json")
+
+# 头图走博客园图床（国内快）；没有映射时回退到旧的 GitHub 图床
+HEADERS = [HEADER_MAP.get(f"h{i:02d}") or f"{CDN}/headers/h{i:02d}.jpg" for i in range(1, 21)]
 NOT_HOME = [HEADERS[i] for i in (0, 2, 4, 7, 10, 13, 17)]
+
+# 首页卡片封面：素材池里挑出来的古风女子图
+COVER_ORDER = [
+    "a01", "a02", "a03", "a06", "a07", "a08", "a14", "a18", "a20", "a21", "a26",
+    "c01", "c02", "c03", "c06", "c07", "c09", "c10", "c14", "c18", "c19", "c22", "c27", "c28", "c30",
+]
+COVERS = [COVER_MAP[name] for name in COVER_ORDER if COVER_MAP.get(name)]
 PLACEHOLDER = (
     "data:image/gif;base64,"
     "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -54,7 +77,10 @@ NEW_LIST_JS = r'''		/**
 			}
 
 			const topImg = this.defaluts.topImg || {};
-			const fallbacks = (topImg.homeTopImg || []).concat(topImg.notHomeTopImg || []);
+			// 优先用素材池里的古风女子图当封面，不够再拿头图补
+			const fallbacks = (topImg.coverImg && topImg.coverImg.length ? topImg.coverImg : [])
+					.concat(topImg.homeTopImg || [])
+					.concat(topImg.notHomeTopImg || []);
 			// 每次刷新换一组封面图；同一页内不重复
 			const coverOffset = fallbacks.length ? Math.floor(Math.random() * fallbacks.length) : 0;
 			const authorName = this.esaText($(this.cnblogs.publicProfile).find('a:eq(0)').text()) || 'leiyuanze';
@@ -527,6 +553,11 @@ page_css += r'''
     word-break: keep-all;
 }
 
+/* 文章页：头图 500px，正文不该被 100vh 顶到屏幕外 */
+body.esa-post-page #main {
+    margin-top: 500px;
+}
+
 .post-list-thumb .post-thumb {
     /* 容器本身高度为 0（图片是绝对定位），这里不能再裁剪，否则封面会整块消失 */
     overflow: visible;
@@ -811,6 +842,11 @@ page_css += r'''
     body.esa-nav-open .esa-mobile-menu:after {
         content: '✕';
     }
+
+    /* 文章页：头图 280px，但 #main 被 100vh 顶下去，中间会空一大截 */
+    body.esa-post-page #main {
+        margin-top: 0 !important;
+    }
 }
 '''
 open(os.path.join(OUT, "page.css"), "w", encoding="utf-8").write(page_css)
@@ -904,6 +940,16 @@ js = js.replace(old_mobile_menu, new_mobile_menu)
 # 「捕获」按钮对访客没有意义，去掉
 js = js.replace("\t\t\tthis.buildToolbar();", "\t\t\t// 「捕获」按钮已移除")
 
+# 文章页打标记：手机端用它把 #main 的 100vh 顶距收回头图高度
+old_post_header = "\t\tpostHeader() {\n"
+if old_post_header not in js:
+    raise SystemExit("[patch] 找不到 postHeader")
+js = js.replace(
+    old_post_header,
+    "\t\tpostHeader() {\n\t\t\t$('body').addClass('esa-post-page');\n",
+    1,
+)
+
 open(os.path.join(OUT, "main.js"), "w", encoding="utf-8").write(js)
 
 # ---------------------------------------------------------------- 配置块
@@ -936,6 +982,9 @@ $.silence({{
         link: 'https://github.com/leiyuanze'
     }},
     topImg: {{
+        coverImg: [
+{cover}
+        ],
         homeTopImg: [
 {home}
         ],
@@ -959,6 +1008,7 @@ $.silence({{
 """
 
 silence_config = config_tpl.format(
+    cover="\n".join('            "%s",' % u for u in COVERS),
     home="\n".join('            "%s",' % u for u in HEADERS),
     not_home="\n".join('            "%s",' % u for u in NOT_HOME),
 )
@@ -972,7 +1022,7 @@ open(os.path.join(OUT, "sidebar.html"), "w", encoding="utf-8").write(sidebar)
 # ---------------------------------------------------------------- 页脚
 SONGS = [
     (3322773657, "游山恋", "浅影阿", 109951172355669080),
-    (2095876512, "探故知", "浅影阿 / 汐音社", 109951169024567662),
+    # 探故知（2095876512）音源已失效，暂时下线
     (3442248108, "关山酒", "浅影阿", 109951174022423147),
     (3420272282, "牡丹亭", "浅影阿", 109951173739951494),
     (3373839227, "春不晚", "浅影阿", 109951173108183621),
@@ -1047,6 +1097,13 @@ EXTRA_TPL = """
             var list = [
 __SONGS__
             ];
+            // 每次刷新随机排序
+            for (var i = list.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = list[i];
+                list[i] = list[j];
+                list[j] = tmp;
+            }
             var audio = list.map(function (s) {
                 return {
                     name: s.name,

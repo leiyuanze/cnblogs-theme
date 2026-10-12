@@ -953,7 +953,10 @@
 			}
 
 			const topImg = this.defaluts.topImg || {};
-			const fallbacks = (topImg.homeTopImg || []).concat(topImg.notHomeTopImg || []);
+			// 优先用素材池里的古风女子图当封面，不够再拿头图补
+			const fallbacks = (topImg.coverImg && topImg.coverImg.length ? topImg.coverImg : [])
+					.concat(topImg.homeTopImg || [])
+					.concat(topImg.notHomeTopImg || []);
 			// 每次刷新换一组封面图；同一页内不重复
 			const coverOffset = fallbacks.length ? Math.floor(Math.random() * fallbacks.length) : 0;
 			const authorName = this.esaText($(this.cnblogs.publicProfile).find('a:eq(0)').text()) || 'leiyuanze';
@@ -1149,6 +1152,7 @@
 		 * 构建阅读页头部html 如果是文章则只显示标题，如果是随笔则显示发布时间，头像，阅读量
 		 */
 		postHeader() {
+			$('body').addClass('esa-post-page');
 			var center =
 					'<div class="pattern-center">' +
 					' <div class="pattern-attachment-img"><img src="" data-src=""' +
@@ -1254,7 +1258,6 @@
             var API = 'https://api.injahow.cn/meting/';
             var list = [
             { id: 3322773657, name: "游山恋", artist: "浅影阿", pic: 109951172355669080 },
-            { id: 2095876512, name: "探故知", artist: "浅影阿 / 汐音社", pic: 109951169024567662 },
             { id: 3442248108, name: "关山酒", artist: "浅影阿", pic: 109951174022423147 },
             { id: 3420272282, name: "牡丹亭", artist: "浅影阿", pic: 109951173739951494 },
             { id: 3373839227, name: "春不晚", artist: "浅影阿", pic: 109951173108183621 },
@@ -1272,6 +1275,13 @@
             { id: 409654891, name: "故梦", artist: "双笙", pic: 109951168638984216 },
             { id: 39224244, name: "狐言", artist: "河图 / 洛天依", pic: 109951167999122273 }
             ];
+            // 每次刷新随机排序
+            for (var i = list.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = list[i];
+                list[i] = list[j];
+                list[j] = tmp;
+            }
             var audio = list.map(function (s) {
                 return {
                     name: s.name,

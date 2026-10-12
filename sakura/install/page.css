@@ -3070,6 +3070,11 @@ div.commentform textarea {
     word-break: keep-all;
 }
 
+/* 文章页：头图 500px，正文不该被 100vh 顶到屏幕外 */
+body.esa-post-page #main {
+    margin-top: 500px;
+}
+
 .post-list-thumb .post-thumb {
     /* 容器本身高度为 0（图片是绝对定位），这里不能再裁剪，否则封面会整块消失 */
     overflow: visible;
@@ -3353,5 +3358,10 @@ div.commentform textarea {
 
     body.esa-nav-open .esa-mobile-menu:after {
         content: '✕';
+    }
+
+    /* 文章页：头图 280px，但 #main 被 100vh 顶下去，中间会空一大截 */
+    body.esa-post-page #main {
+        margin-top: 0 !important;
     }
 }

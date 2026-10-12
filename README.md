@@ -18,6 +18,18 @@
   - `main.js` → **上传到博客园「文件」**，页脚只引用它的直链
 - `sakura/backup-live/`：每次读写后台前的线上配置备份 + 操作截图
 - `sakura/original-theme/`：**改造前**的线上配置原文（回退用）
+
+## 素材
+
+- `guofeng/`：收集的古风素材池（按批次存放原图 + 拼图，仅存档，站点不直接引用）
+- `sakura/headers-web/`：头图成品（1600×667，20 张）
+- `sakura/covers-web/`：首页卡片封面成品（900×600，古风女子，25 张）
+- `sakura/uploaded-headers.json` / `uploaded-covers.json`：上传到**博客园图床**后的
+  名称 → URL 映射，`build_install.py` 直接读它生成配置
+
+> 站点实际加载的图片全部走博客园自己的图床（`img2024.cnblogs.com`），
+> 不走 GitHub / jsdelivr——国内实测后者单张要 2 秒以上。
+> 素材池进仓库只是为了存档和以后换图。
 - `tools/`：Playwright 诊断/部署脚本（连本机已登录的 Edge 调试实例）
 - `before/`：最早期的线上基线快照
 
