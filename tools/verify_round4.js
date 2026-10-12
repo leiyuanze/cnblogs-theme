@@ -14,6 +14,7 @@ const MOBILE = {
   userAgent:
     'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
 };
+const DESKTOP = { viewport: { width: 1440, height: 900 } };
 
 const coverMap = JSON.parse(fs.readFileSync(ROOT + '\\uploaded-covers.json', 'utf8'));
 const urlToName = {};
@@ -139,5 +140,27 @@ const longestRun = (arr) => {
   console.log('播放列表:', mixInfo.titles.join(' / '));
   console.log('歌手序列:', artists.join(' | '), ' 同一歌手最长连排 =', longestRun(artists));
   await ctx.close();
+
+  // 3) 桌面端：播放器保持原来的 66px 小胶囊（不跟着滑出），页面也不该有横向溢出
+  //    注：APlayer 在 fixed 模式下默认就是 narrow，PC 端本来就是这个样子
+  const dctx = await browser.newContext(DESKTOP);
+  const dpage = await dctx.newPage();
+  await dpage.goto(HOME, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await dpage.waitForTimeout(12000);
+  const desk = await dpage.evaluate(() => {
+    const el = document.querySelector('.aplayer');
+    const bar = document.querySelector('.aplayer-body');
+    const r = bar ? bar.getBoundingClientRect() : null;
+    return {
+      className: el ? el.className : null,
+      bodyBox: r ? [Math.round(r.left), Math.round(r.width), Math.round(r.height)] : null,
+      vw: window.innerWidth,
+      docSW: document.documentElement.scrollWidth,
+      covers: Array.from(document.querySelectorAll('.post-list-thumb .post-thumb img')).length,
+    };
+  });
+  console.log('\n桌面端: 播放器类名=' + desk.className + ' body[x,w,h]=' + JSON.stringify(desk.bodyBox) +
+    ' vw=' + desk.vw + ' docSW=' + desk.docSW + ' 卡片=' + desk.covers);
+  await dctx.close();
   await browser.close();
 })();
