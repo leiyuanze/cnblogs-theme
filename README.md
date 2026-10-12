@@ -24,6 +24,8 @@
 - `guofeng/`：收集的古风素材池（按批次存放原图 + 拼图，仅存档，站点不直接引用）
 - `sakura/headers-web/`：头图成品（1600×667，20 张）
 - `sakura/covers-web/`：首页卡片封面成品（900×600，古风女子，25 张）
+  - `c06b.jpg` 是 `c06` 的重裁版：原图中下部有「小红书」水印，改成只取上半身，
+    文件名带 b 是为了让博客园图床当成新文件重新上传（同名不让覆盖）
 - `sakura/uploaded-headers.json` / `uploaded-covers.json`：上传到**博客园图床**后的
   名称 → URL 映射，`build_install.py` 直接读它生成配置
 
@@ -62,7 +64,18 @@ node tools\admin_deploy.js write    # 写入并保存
 - `node tools\check_random.js`：验证封面每次刷新是否变化、手机端大标题是否溢出
 - `node tools\diag_menu.js`：手机端汉堡菜单能否展开、展开高度
 - `node tools\check_mobile_cards.js`：手机端卡片封面与正文是否重叠
+- `node tools\diag_overflow2.js <文章URL>`：找出把手机端页面撑宽的节点（谁 scrollWidth > clientWidth）
+- `node tools\verify_round4.js`：整轮验收（置顶文章不再顶宽 / 播放器收起 / 封面与音乐是否混排）
 - `node tools\shoot_live2.js`：线上实拍截图（存到 `sakura/live/`）
+
+## 手机端约定
+
+- **播放器默认收起**：手机端初始化 APlayer 后自动切到 narrow，只留一个 `>`（`sakura/build_install.py`
+  的 mobile media query 里补了 `.aplayer-narrow .aplayer-body { left: -66px }`，
+  因为用的那份 APlayer.min.css 没有滑出样式）；PC 端保持展开。
+- **封面池**：`coverImg` 和头图两池各自打乱后再拼接、并去重，保证每次刷新都是
+  二次元 / 写实混着出现，且封面池够用时不用头图顶替。
+- **音乐顺序**：每次刷新挑“剩下最多”的歌手、且避开上一位，避免同一个人的歌连排。
 
 ## 关键坑（都踩过）
 
@@ -74,6 +87,11 @@ node tools\admin_deploy.js write    # 写入并保存
    JS 挂了也能看到原生列表。
 4. **jQuery 版本**：主题原版依赖 jQuery 1.8 的 `.context`，现在统一用博客园自带的 3.3.1。
 5. **图片别放 GitHub/jsdelivr**：这里实测单张 2.2 秒，头图/封面统一走博客园自己的域名。
+6. **手机端置顶文章右侧一条白边**：MathJax 的展示公式外层有一层 `display:table-cell`
+   的 `.mjx-full-width` 壳，带着 em 单位的 `min-width`，窄屏下被钉在 430px 以上，
+   整页被顶宽成 455px、浏览器缩小页面。修法是手机端把它改成
+   `display:block; min-width:0; overflow-x:auto`，公式在框里滚，页面不再被顶宽。
+   （另：`.MJX_Assistive_MathML` 辅助副本也要裁掉溢出。）
 
 ## 回退
 

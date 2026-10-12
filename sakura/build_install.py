@@ -18,8 +18,8 @@ os.makedirs(OUT, exist_ok=True)
 
 CDN = "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin"  # 旧图床，仅作兜底
 # 主题主脚本放在博客园自己的文件存储里（快、稳、不受 jsdelivr 影响）
-JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012f.js"
-JS_VER = "20261012f"
+JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012j.js"
+JS_VER = "20261012j"
 
 
 def load_uploaded(name):
@@ -39,11 +39,13 @@ HEADERS = [HEADER_MAP.get(f"h{i:02d}") or f"{CDN}/headers/h{i:02d}.jpg" for i in
 NOT_HOME = [HEADERS[i] for i in (0, 2, 4, 7, 10, 13, 17)]
 
 # 首页卡片封面：素材池里挑出来的古风女子图
-COVER_ORDER = [
-    "a01", "a02", "a03", "a06", "a07", "a08", "a14", "a18", "a20", "a21", "a26",
-    "c01", "c02", "c03", "c06", "c09", "c10", "c14", "c18", "c19", "c28", "c30",
-    # c07 / c22 / c27 原图带明显水印，收进素材池但不做封面
-]
+# 两套风格交替排列（二次元 / 写实），避免同一类连着出现
+_COVER_A = ["a01", "a02", "a03", "a06", "a07", "a08", "a14", "a18", "a20", "a21", "a26"]
+# c06 换成重裁过的上半身版（c06b），避开原图上的「小红书」水印
+# c07 / c22 / c27 原图带明显水印，收进素材池但不做封面
+_COVER_C = ["c01", "c02", "c03", "c06b", "c09", "c10", "c14", "c18", "c19", "c28", "c30"]
+COVER_ORDER = [x for pair in zip(_COVER_A, _COVER_C) for x in pair]
+COVER_ORDER += _COVER_A[len(_COVER_C):] + _COVER_C[len(_COVER_A):]
 COVERS = [COVER_MAP[name] for name in COVER_ORDER if COVER_MAP.get(name)]
 PLACEHOLDER = (
     "data:image/gif;base64,"
@@ -78,12 +80,22 @@ NEW_LIST_JS = r'''		/**
 			}
 
 			const topImg = this.defaluts.topImg || {};
-			// 优先用素材池里的古风女子图当封面，不够再拿头图补
-			const fallbacks = (topImg.coverImg && topImg.coverImg.length ? topImg.coverImg : [])
-					.concat(topImg.homeTopImg || [])
-					.concat(topImg.notHomeTopImg || []);
-			// 每次刷新换一组封面图；同一页内不重复
-			const coverOffset = fallbacks.length ? Math.floor(Math.random() * fallbacks.length) : 0;
+			// 封面池：优先用素材池里的古风女子图，不够再拿头图补
+			const shufflePick = (arr) => {
+				const out = arr.slice();
+				for (let i = out.length - 1; i > 0; i -= 1) {
+					const j = Math.floor(Math.random() * (i + 1));
+					const tmp = out[i];
+					out[i] = out[j];
+					out[j] = tmp;
+				}
+				return out;
+			};
+			// 两组各自打乱后再拼接：每次刷新都是二次元 / 写实混着出现，
+			// 组内先去重，避免同一张图在一页里出现两次
+			const fallbacks = shufflePick(Array.from(new Set(topImg.coverImg || [])))
+					.concat(shufflePick(Array.from(new Set((topImg.homeTopImg || []).concat(topImg.notHomeTopImg || [])))));
+			const coverOffset = 0;
 			const authorName = this.esaText($(this.cnblogs.publicProfile).find('a:eq(0)').text()) || 'leiyuanze';
 			const cards = [];
 			let cardIndex = 0;
@@ -848,6 +860,68 @@ body.esa-post-page #main {
     body.esa-post-page #main {
         margin-top: 0 !important;
     }
+
+    /* MathJax 的辅助 MathML 是绝对定位的隐藏副本，不裁掉溢出会把整页撑宽，
+       表现就是置顶文章右侧多一条白边、要横向滑动才看得到 */
+    .MJX_Assistive_MathML,
+    .MathJax_Assistive_MathML {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+    }
+
+    /* 过宽的公式改成公式内部滚动，不要把整页顶宽 */
+    #cnblogs_post_body .MathJax_CHTML,
+    #cnblogs_post_body .mjx-chtml {
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    /* MathJax 的展示公式外面套了一层 display:table-cell 的 “full width” 壳，
+       它带着 em 单位的 min-width，手机窄屏下会把这层壳钉在 430px 以上，
+       整页被顶宽、浏览器缩小页面，右边就露出白边。归零后让公式自己在框里滚 */
+    #cnblogs_post_body .mjx-full-width {
+        display: block !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    /* MathJax v3 的展示公式同样限制在容器内 */
+    #cnblogs_post_body mjx-container {
+        max-width: 100% !important;
+    }
+
+    #cnblogs_post_body mjx-container[display="true"] {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    #cnblogs_post_body h1,
+    #cnblogs_post_body h2,
+    #cnblogs_post_body h3,
+    #cnblogs_post_body h4,
+    #cnblogs_post_body p,
+    #cnblogs_post_body li {
+        overflow-wrap: break-word;
+    }
+
+    /* 手机端播放器收起后只留一个 “>”（班底的 APlayer 版本没有滑出样式，自己补上） */
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+        bottom: 0 !important;
+        transition: left .2s;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover,
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:focus-within {
+        left: 0 !important;
+    }
 }
 '''
 open(os.path.join(OUT, "page.css"), "w", encoding="utf-8").write(page_css)
@@ -1042,6 +1116,7 @@ SONGS = [
     (39224244, "狐言", "河图 / 洛天依", 109951167999122273),
 ]
 
+
 song_js = ",\n".join(
     '            { id: %d, name: "%s", artist: "%s", pic: %d }' % s for s in SONGS
 )
@@ -1098,13 +1173,61 @@ EXTRA_TPL = """
             var list = [
 __SONGS__
             ];
-            // 每次刷新随机排序
-            for (var i = list.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = list[i];
-                list[i] = list[j];
-                list[j] = tmp;
+            // 每次刷新重排：歌手顺序随机 + 每个歌手内部随机 + 按歌手轮流穿插，
+            // 这样不会连着好几首都是同一个人
+            var byArtist = {};
+            var artists = [];
+            var shuffled = [];
+            var i;
+            for (i = 0; i < list.length; i += 1) {
+                var key = String(list[i].artist || '').split('/')[0].trim();
+                if (!byArtist[key]) {
+                    byArtist[key] = [];
+                    artists.push(key);
+                }
+                byArtist[key].push(list[i]);
             }
+            for (i = artists.length - 1; i > 0; i -= 1) {
+                var a = Math.floor(Math.random() * (i + 1));
+                var ta = artists[i];
+                artists[i] = artists[a];
+                artists[a] = ta;
+            }
+            for (i = 0; i < artists.length; i += 1) {
+                var bucket = byArtist[artists[i]];
+                for (var k = bucket.length - 1; k > 0; k -= 1) {
+                    var m = Math.floor(Math.random() * (k + 1));
+                    var tb = bucket[k];
+                    bucket[k] = bucket[m];
+                    bucket[m] = tb;
+                }
+            }
+            // 每次挑“剩下最多”的歌手，并避开上一位，歌多的歌手自然被摊开
+            var lastKey = null;
+            while (shuffled.length < list.length) {
+                var pick = null;
+                for (i = 0; i < artists.length; i += 1) {
+                    var key2 = artists[i];
+                    var queue = byArtist[key2];
+                    if (!queue.length || key2 === lastKey) {
+                        continue;
+                    }
+                    if (pick === null || queue.length > byArtist[pick].length) {
+                        pick = key2;
+                    }
+                }
+                if (pick === null) {          // 只剩上一位歌手，退而求其次
+                    for (i = 0; i < artists.length; i += 1) {
+                        if (byArtist[artists[i]].length) {
+                            pick = artists[i];
+                            break;
+                        }
+                    }
+                }
+                lastKey = pick;
+                shuffled.push(byArtist[pick].shift());
+            }
+            list = shuffled;
             var audio = list.map(function (s) {
                 return {
                     name: s.name,
@@ -1123,6 +1246,16 @@ __SONGS__
                 theme: '#FF85B8',
                 audio: audio
             });
+            // 手机端默认收起播放器，只留一个 ">"，不挡内容
+            if (isMobile) {
+                setTimeout(function () {
+                    var player = document.querySelector('.aplayer');
+                    var switcher = document.querySelector('.aplayer-miniswitcher');
+                    if (player && switcher && !player.classList.contains('aplayer-narrow')) {
+                        switcher.click();
+                    }
+                }, 400);
+            }
         });
     }
 

@@ -3364,4 +3364,66 @@ body.esa-post-page #main {
     body.esa-post-page #main {
         margin-top: 0 !important;
     }
+
+    /* MathJax 的辅助 MathML 是绝对定位的隐藏副本，不裁掉溢出会把整页撑宽，
+       表现就是置顶文章右侧多一条白边、要横向滑动才看得到 */
+    .MJX_Assistive_MathML,
+    .MathJax_Assistive_MathML {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+    }
+
+    /* 过宽的公式改成公式内部滚动，不要把整页顶宽 */
+    #cnblogs_post_body .MathJax_CHTML,
+    #cnblogs_post_body .mjx-chtml {
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    /* MathJax 的展示公式外面套了一层 display:table-cell 的 “full width” 壳，
+       它带着 em 单位的 min-width，手机窄屏下会把这层壳钉在 430px 以上，
+       整页被顶宽、浏览器缩小页面，右边就露出白边。归零后让公式自己在框里滚 */
+    #cnblogs_post_body .mjx-full-width {
+        display: block !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    /* MathJax v3 的展示公式同样限制在容器内 */
+    #cnblogs_post_body mjx-container {
+        max-width: 100% !important;
+    }
+
+    #cnblogs_post_body mjx-container[display="true"] {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    #cnblogs_post_body h1,
+    #cnblogs_post_body h2,
+    #cnblogs_post_body h3,
+    #cnblogs_post_body h4,
+    #cnblogs_post_body p,
+    #cnblogs_post_body li {
+        overflow-wrap: break-word;
+    }
+
+    /* 手机端播放器收起后只留一个 “>”（班底的 APlayer 版本没有滑出样式，自己补上） */
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+        bottom: 0 !important;
+        transition: left .2s;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover,
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:focus-within {
+        left: 0 !important;
+    }
 }

@@ -953,12 +953,22 @@
 			}
 
 			const topImg = this.defaluts.topImg || {};
-			// 优先用素材池里的古风女子图当封面，不够再拿头图补
-			const fallbacks = (topImg.coverImg && topImg.coverImg.length ? topImg.coverImg : [])
-					.concat(topImg.homeTopImg || [])
-					.concat(topImg.notHomeTopImg || []);
-			// 每次刷新换一组封面图；同一页内不重复
-			const coverOffset = fallbacks.length ? Math.floor(Math.random() * fallbacks.length) : 0;
+			// 封面池：优先用素材池里的古风女子图，不够再拿头图补
+			const shufflePick = (arr) => {
+				const out = arr.slice();
+				for (let i = out.length - 1; i > 0; i -= 1) {
+					const j = Math.floor(Math.random() * (i + 1));
+					const tmp = out[i];
+					out[i] = out[j];
+					out[j] = tmp;
+				}
+				return out;
+			};
+			// 两组各自打乱后再拼接：每次刷新都是二次元 / 写实混着出现，
+			// 组内先去重，避免同一张图在一页里出现两次
+			const fallbacks = shufflePick(Array.from(new Set(topImg.coverImg || [])))
+					.concat(shufflePick(Array.from(new Set((topImg.homeTopImg || []).concat(topImg.notHomeTopImg || [])))));
+			const coverOffset = 0;
 			const authorName = this.esaText($(this.cnblogs.publicProfile).find('a:eq(0)').text()) || 'leiyuanze';
 			const PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 			const cards = [];
@@ -1275,13 +1285,61 @@
             { id: 409654891, name: "故梦", artist: "双笙", pic: 109951168638984216 },
             { id: 39224244, name: "狐言", artist: "河图 / 洛天依", pic: 109951167999122273 }
             ];
-            // 每次刷新随机排序
-            for (var i = list.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = list[i];
-                list[i] = list[j];
-                list[j] = tmp;
+            // 每次刷新重排：歌手顺序随机 + 每个歌手内部随机 + 按歌手轮流穿插，
+            // 这样不会连着好几首都是同一个人
+            var byArtist = {};
+            var artists = [];
+            var shuffled = [];
+            var i;
+            for (i = 0; i < list.length; i += 1) {
+                var key = String(list[i].artist || '').split('/')[0].trim();
+                if (!byArtist[key]) {
+                    byArtist[key] = [];
+                    artists.push(key);
+                }
+                byArtist[key].push(list[i]);
             }
+            for (i = artists.length - 1; i > 0; i -= 1) {
+                var a = Math.floor(Math.random() * (i + 1));
+                var ta = artists[i];
+                artists[i] = artists[a];
+                artists[a] = ta;
+            }
+            for (i = 0; i < artists.length; i += 1) {
+                var bucket = byArtist[artists[i]];
+                for (var k = bucket.length - 1; k > 0; k -= 1) {
+                    var m = Math.floor(Math.random() * (k + 1));
+                    var tb = bucket[k];
+                    bucket[k] = bucket[m];
+                    bucket[m] = tb;
+                }
+            }
+            // 每次挑“剩下最多”的歌手，并避开上一位，歌多的歌手自然被摊开
+            var lastKey = null;
+            while (shuffled.length < list.length) {
+                var pick = null;
+                for (i = 0; i < artists.length; i += 1) {
+                    var key2 = artists[i];
+                    var queue = byArtist[key2];
+                    if (!queue.length || key2 === lastKey) {
+                        continue;
+                    }
+                    if (pick === null || queue.length > byArtist[pick].length) {
+                        pick = key2;
+                    }
+                }
+                if (pick === null) {          // 只剩上一位歌手，退而求其次
+                    for (i = 0; i < artists.length; i += 1) {
+                        if (byArtist[artists[i]].length) {
+                            pick = artists[i];
+                            break;
+                        }
+                    }
+                }
+                lastKey = pick;
+                shuffled.push(byArtist[pick].shift());
+            }
+            list = shuffled;
             var audio = list.map(function (s) {
                 return {
                     name: s.name,
@@ -1300,6 +1358,16 @@
                 theme: '#FF85B8',
                 audio: audio
             });
+            // 手机端默认收起播放器，只留一个 ">"，不挡内容
+            if (isMobile) {
+                setTimeout(function () {
+                    var player = document.querySelector('.aplayer');
+                    var switcher = document.querySelector('.aplayer-miniswitcher');
+                    if (player && switcher && !player.classList.contains('aplayer-narrow')) {
+                        switcher.click();
+                    }
+                }, 400);
+            }
         });
     }
 

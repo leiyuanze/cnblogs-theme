@@ -21,6 +21,16 @@ SELECTED = [
     ("pick6", "c28"), ("pick6", "c30"),
 ]
 
+# 个别图重裁过：换个新文件名，方便重新上传（博客园图床不允许覆盖同名图）
+OUT_NAME = {
+    "c06": "c06b",
+}
+
+# 个别原图指定裁剪框：c06 中下部有「小红书」水印，改成只取上半身
+CROP_BOX = {
+    "c06": (0, 140, 1408, 1078),
+}
+
 os.makedirs(OUT, exist_ok=True)
 total = 0
 for folder, name in SELECTED:
@@ -28,12 +38,15 @@ for folder, name in SELECTED:
     if not os.path.exists(src):
         print("SKIP (missing)", src)
         continue
-    dst = os.path.join(OUT, name + ".jpg")
+    out_name = OUT_NAME.get(name, name)
+    dst = os.path.join(OUT, out_name + ".jpg")
     with Image.open(src) as im:
         im = im.convert("RGB")
         w, h = im.size
         target_ratio = SIZE[0] / SIZE[1]
-        if w / h > target_ratio:                  # 太宽：从中间裁宽
+        if name in CROP_BOX:                      # 手工指定的裁剪框
+            box = CROP_BOX[name]
+        elif w / h > target_ratio:                # 太宽：从中间裁宽
             new_w = int(h * target_ratio)
             left = (w - new_w) // 2
             box = (left, 0, left + new_w, h)
@@ -45,7 +58,7 @@ for folder, name in SELECTED:
         im.save(dst, "JPEG", quality=QUALITY, optimize=True, progressive=True)
     kb = os.path.getsize(dst) // 1024
     total += kb
-    print("%-8s -> %4d KB" % (name, kb))
+    print("%-8s -> %s %4d KB" % (name, out_name + ".jpg", kb))
 
 print("共 %d 张，合计 %d KB" % (len(SELECTED), total))
 
