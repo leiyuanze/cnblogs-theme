@@ -18,8 +18,8 @@ os.makedirs(OUT, exist_ok=True)
 
 CDN = "https://cdn.jsdelivr.net/gh/leiyuanze/leiyuanze.github.io@master/skin"  # 旧图床，仅作兜底
 # 主题主脚本放在博客园自己的文件存储里（快、稳、不受 jsdelivr 影响）
-JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261012m.js"
-JS_VER = "20261012m"
+JS_CDN = "https://blog-static.cnblogs.com/files/leiyuanze/leiyuanze-main-20261023a.js"
+JS_VER = "20261023a"
 
 
 def load_uploaded(name):
@@ -67,6 +67,10 @@ MOTTOS = [
     "以梦为马，不负韶华。",
     "愿你出走半生，归来仍是少年。",
 ]
+
+# 博客园当前头像。主脚本还会优先读取页面里的 #user_icon，
+# 这样以后在博客园换头像时，首屏徽章也会自动跟着换。
+AVATAR = "https://pic.cnblogs.com/face/1823815/20200730200651.png"
 
 PLACEHOLDER = (
     "data:image/gif;base64,"
@@ -587,6 +591,25 @@ page_css += r'''
     word-break: keep-all;
 }
 
+/* 首页/列表页首屏头像：圆形描边 + 轻阴影，放在 LEIYUANZE 正上方 */
+.esa-hero-avatar {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    padding: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .28), 0 0 0 1px rgba(255, 255, 255, .22);
+}
+
+.esa-hero-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 /* 文章页：头图 500px，正文不该被 100vh 顶到屏幕外 */
 body.esa-post-page #main {
     margin-top: 500px;
@@ -738,9 +761,30 @@ body.esa-post-page #main {
 
 /* 5. 手机端适配：头图高度用 svh，卡片竖排带封面 */
 @media only screen and (max-width: 767px) {
+    /* 手机浏览器地址栏伸缩时，100vh 和 100svh 会差几十像素。
+       头图和正文统一用 svh，避免正文提前压到背景图底部的波浪上。 */
+    .main-header {
+        height: 100vh;
+        height: 100svh;
+        max-height: 100vh;
+        max-height: 100svh;
+    }
+
     #main {
+        margin-top: 100vh;
         margin-top: 100svh;
         padding: 0 12px !important;
+    }
+
+    /* 标签、归档等列表页：正文与头图底部留一点呼吸空间 */
+    body.esa-list-page #main {
+        padding-top: 22px !important;
+    }
+
+    /* 背景图底部的波浪显式贴住 svh 下沿，不再跟着旧 vh 高度漂 */
+    body:not(.esa-post-page) .wave {
+        top: calc(100svh - 110px);
+        bottom: auto;
     }
 
     /* 80px 的大标题在手机上会顶出屏幕，这里压到能完整显示 */
@@ -752,6 +796,13 @@ body.esa-post-page #main {
         max-width: 100%;
         font-size: 40px;
         letter-spacing: 1px;
+    }
+
+    .esa-hero-avatar {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 14px;
+        padding: 3px;
     }
 
     #mainContent .forFlow {
@@ -879,6 +930,14 @@ body.esa-post-page #main {
         color: #61687C;
         background: rgba(255, 255, 255, .9);
         box-shadow: 0 1px 6px rgba(0, 0, 0, .12);
+        transition: opacity .2s ease, transform .2s ease;
+    }
+
+    /* 向下阅读时让出内容区域；向上滑或回到首屏时重新出现 */
+    body.esa-menu-hidden .esa-mobile-menu {
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
     }
 
     .esa-mobile-menu:after {
@@ -971,6 +1030,17 @@ js = js.replace(
     'class="center-text Ubuntu-font" data-text="leiyuanze"',
 )
 
+# 首屏头像：放在标题上方。优先沿用博客园页面里的 #user_icon，
+# 这样以后在后台换头像，主题首屏也会自动更新。
+old_avatar = '\t\t\t\t\t`       <h1 class="center-text Ubuntu-font" data-text="leiyuanze">${config.title}</h1>` +'
+new_avatar = (
+    '\t\t\t\t\t`       <div class="esa-hero-avatar"><img src="${avatarSrc}" alt="leiyuanze 头像"></div>` +\n'
+    '\t\t\t\t\t`       <h1 class="center-text Ubuntu-font" data-text="leiyuanze">${config.title}</h1>` +'
+)
+if old_avatar not in js:
+    raise SystemExit("[patch] 找不到首页标题")
+js = js.replace(old_avatar, new_avatar, 1)
+
 js = replace_block(
     js,
     "\t\tsetHomeSuiBiList() {",
@@ -998,6 +1068,18 @@ js = replace_block(
     "\n\t\t// 已经滚动距离",
     NEW_SCROLL_JS,
     "scrollDy",
+)
+
+# 首页、标签、归档等列表页打标记：手机端用它在头图底和正文之间留安全区。
+# 即使主题脚本被重复注入，也不能重复生成头图（头像会叠两次）。
+old_main_header = "\t\tmainHeader() {\n"
+if old_main_header not in js:
+    raise SystemExit("[patch] 找不到 mainHeader")
+js = js.replace(
+    old_main_header,
+    "\t\tmainHeader() {\n\t\t\t$('body').addClass('esa-list-page');\n"
+    "\t\t\tif ($('#home > .main-header').length) { return; }\n",
+    1,
 )
 
 # 首页卡片懒加载的占位图
@@ -1038,10 +1120,50 @@ js = js.replace(old_mobile_menu, new_mobile_menu)
 # 「捕获」按钮对访客没有意义，去掉
 js = js.replace("\t\t\tthis.buildToolbar();", "\t\t\t// 「捕获」按钮已移除")
 
+# 手机端汉堡按钮：向下滚动时淡出，向上滑或接近首屏时恢复。
+# 它固定在右上角，标签页和归档页的标题滚进这个区域时会被盖住。
+scroll_tail_anchor = "\t\tthis.scrollDy();\n"
+if scroll_tail_anchor not in js:
+    raise SystemExit("[patch] 找不到 scrollDy 调用")
+scroll_mobile_menu_js = (
+    "\t\t// 手机端向下阅读时隐藏汉堡按钮，避免盖住标签页/归档页标题\n"
+    "\t\tif (!window.__leiyuanzeMenuScrollBound) {\n"
+    "\t\t\twindow.__leiyuanzeMenuScrollBound = true;\n"
+    "\t\t\t(function () {\n"
+    "\t\t\t\tif (!window.matchMedia || !window.matchMedia('(max-width: 767px)').matches) return;\n"
+    "\t\t\t\tvar lastY = window.pageYOffset || 0;\n"
+    "\t\t\t\tvar ticking = false;\n"
+    "\t\t\t\twindow.addEventListener('scroll', function () {\n"
+    "\t\t\t\t\tif (ticking) return;\n"
+    "\t\t\t\t\tticking = true;\n"
+    "\t\t\t\t\twindow.requestAnimationFrame(function () {\n"
+    "\t\t\t\t\t\tvar y = window.pageYOffset || 0;\n"
+    "\t\t\t\t\t\tif (y > lastY + 6 && y > 40) $('body').addClass('esa-menu-hidden');\n"
+    "\t\t\t\t\t\tif (y < lastY - 6 || y <= 40) $('body').removeClass('esa-menu-hidden');\n"
+    "\t\t\t\t\t\tlastY = y;\n"
+    "\t\t\t\t\t\tticking = false;\n"
+    "\t\t\t\t\t});\n"
+    "\t\t\t\t}, { passive: true });\n"
+    "\t\t\t})();\n"
+    "\t\t}\n"
+)
+
+# 分段替换：后面加/删语句时，不会把汉堡按钮逻辑误挪到方法外。
+scroll_tail_json = json_normalized_anchor = "\t\tthis.scrollDy();\n"
+js = js.replace(
+    scroll_tail_anchor,
+    "\t\t/*__LEIYUANZE_SCROLL_MENU__*/\n\t\tthis.scrollDy();\n",
+    1,
+)
+js = js.replace("\t\t/*__LEIYUANZE_SCROLL_MENU__*/\n", scroll_mobile_menu_js.replace("\t\tthis.scrollDy();\n", ""), 1)
+
 # 头图下面那句签名：配置里用 | 分隔多条，每次刷新随机取一条
 old_motto = "\t\t\tconst config = this.defaluts.topInfo;"
 new_motto = (
     "\t\t\tconst config = this.defaluts.topInfo;\n"
+    "\t\t\t// 首屏头像：优先沿用博客园页面里的账号头像，换头像后无需再改主题\n"
+    "\t\t\tconst liveAvatar = ($('#user_icon').attr('src') || '').trim();\n"
+    "\t\t\tconst avatarSrc = config.avatar || (liveAvatar && liveAvatar.indexOf('/avatar-default.svg') < 0 ? liveAvatar.replace(/^https?:/, '') : 'https://pic.cnblogs.com/face/1823815/20200730200651.png');\n"
     "\t\t\t// 签名诗句：配置里用 | 分隔多条，每次刷新随机取一条\n"
     "\t\t\tconst mottoList = String(config.text || '').split('|').map((s) => s.trim()).filter((s) => s);\n"
     "\t\t\tif (mottoList.length > 1) {\n"
@@ -1106,6 +1228,7 @@ $.silence({{
     }},
     topInfo: {{
         title: 'leiyuanze',
+        avatar: '{avatar}',
         text: '{mottos}',
         github: 'https://github.com/leiyuanze',
         weibo: '',
@@ -1123,6 +1246,7 @@ silence_config = config_tpl.format(
     cover="\n".join('            "%s",' % u for u in COVERS),
     home="\n".join('            "%s",' % u for u in HEADERS),
     not_home="\n".join('            "%s",' % u for u in NOT_HOME),
+    avatar=AVATAR,
     mottos="|".join(MOTTOS),
 )
 

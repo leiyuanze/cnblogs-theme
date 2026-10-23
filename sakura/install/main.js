@@ -120,7 +120,27 @@
 				this.homeImg();
 				this.setHomeSuiBiList();
 			}
-			this.scrollDy();
+			// 手机端向下阅读时隐藏汉堡按钮，避免盖住标签页/归档页标题
+		if (!window.__leiyuanzeMenuScrollBound) {
+			window.__leiyuanzeMenuScrollBound = true;
+			(function () {
+				if (!window.matchMedia || !window.matchMedia('(max-width: 767px)').matches) return;
+				var lastY = window.pageYOffset || 0;
+				var ticking = false;
+				window.addEventListener('scroll', function () {
+					if (ticking) return;
+					ticking = true;
+					window.requestAnimationFrame(function () {
+						var y = window.pageYOffset || 0;
+						if (y > lastY + 6 && y > 40) $('body').addClass('esa-menu-hidden');
+						if (y < lastY - 6 || y <= 40) $('body').removeClass('esa-menu-hidden');
+						lastY = y;
+						ticking = false;
+					});
+				}, { passive: true });
+			})();
+		}
+		this.scrollDy();
 		}
 
 		/**
@@ -856,7 +876,12 @@
 		 * headertop 网格遮罩
 		 */
 		mainHeader() {
+			$('body').addClass('esa-list-page');
+			if ($('#home > .main-header').length) { return; }
 			const config = this.defaluts.topInfo;
+			// 首屏头像：优先沿用博客园页面里的账号头像，换头像后无需再改主题
+			const liveAvatar = ($('#user_icon').attr('src') || '').trim();
+			const avatarSrc = config.avatar || (liveAvatar && liveAvatar.indexOf('/avatar-default.svg') < 0 ? liveAvatar.replace(/^https?:/, '') : 'https://pic.cnblogs.com/face/1823815/20200730200651.png');
 			// 签名诗句：配置里用 | 分隔多条，每次刷新随机取一条
 			const mottoList = String(config.text || '').split('|').map((s) => s.trim()).filter((s) => s);
 			if (mottoList.length > 1) {
@@ -868,6 +893,7 @@
 					`<div class="main-header">` +
 					`</div>` +
 					`<div class="focusinfo no-select">` +
+					`       <div class="esa-hero-avatar"><img src="${avatarSrc}" alt="leiyuanze 头像"></div>` +
 					`       <h1 class="center-text Ubuntu-font" data-text="leiyuanze">${config.title}</h1>` +
 					`       <div class="header-info"><p><i class="fa fa-quote-left"></i> ${config.text} <i class="fa fa-quote-right"></i></p>` +
 					`           <div class="top-social_v2">` +

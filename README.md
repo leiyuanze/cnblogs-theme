@@ -68,6 +68,7 @@ node tools\admin_deploy.js write    # 写入并保存
 - `node tools\check_mobile_cards.js`：手机端卡片封面与正文是否重叠
 - `node tools\diag_overflow2.js <文章URL>`：找出把手机端页面撑宽的节点（谁 scrollWidth > clientWidth）
 - `node tools\verify_round4.js`：整轮验收（置顶文章不再顶宽 / 播放器收起 / 封面与音乐是否混排）
+- `node tools\verify_tags_avatar.js`：手机标签页标题遮挡、首屏头像和汉堡按钮滚动隐藏
 - `node tools\shoot_live2.js`：线上实拍截图（存到 `sakura/live/`）
 
 ## 播放器与签名
@@ -77,6 +78,10 @@ node tools\admin_deploy.js write    # 写入并保存
   `.aplayer-narrow .aplayer-body { left: -66px }`；鼠标悬停（PC）或点一下开关（手机）就展开。
 - **头图签名随机**：`MOTTOS` 里的 16 句诗句用 `|` 拼进配置的 `topInfo.text`，
   `main.js` 的 `mainHeader()` 每次加载随机取一条。
+- **首屏头像**：`AVATAR` 写入 `topInfo.avatar`；脚本优先使用页面里真实的 `#user_icon`，
+  只有默认灰头像时才回退到配置地址。头像放在标题上方，不替换博客园账号头像。
+- **手机标签页/归档页遮挡**：头图与正文统一用 `svh`；列表页正文额外留 22px 安全区；
+  汉堡按钮向下滚动淡出，向上滑恢复。
 - **封面池**：`coverImg` 和头图两池各自打乱后再拼接、并去重，保证每次刷新都是
   二次元 / 写实混着出现，且封面池够用时不用头图顶替。
 - **音乐顺序**：每次刷新挑“剩下最多”的歌手、且避开上一位，避免同一个人的歌连排。

@@ -3070,6 +3070,25 @@ div.commentform textarea {
     word-break: keep-all;
 }
 
+/* 首页/列表页首屏头像：圆形描边 + 轻阴影，放在 LEIYUANZE 正上方 */
+.esa-hero-avatar {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    padding: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .28), 0 0 0 1px rgba(255, 255, 255, .22);
+}
+
+.esa-hero-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 /* 文章页：头图 500px，正文不该被 100vh 顶到屏幕外 */
 body.esa-post-page #main {
     margin-top: 500px;
@@ -3221,9 +3240,30 @@ body.esa-post-page #main {
 
 /* 5. 手机端适配：头图高度用 svh，卡片竖排带封面 */
 @media only screen and (max-width: 767px) {
+    /* 手机浏览器地址栏伸缩时，100vh 和 100svh 会差几十像素。
+       头图和正文统一用 svh，避免正文提前压到背景图底部的波浪上。 */
+    .main-header {
+        height: 100vh;
+        height: 100svh;
+        max-height: 100vh;
+        max-height: 100svh;
+    }
+
     #main {
+        margin-top: 100vh;
         margin-top: 100svh;
         padding: 0 12px !important;
+    }
+
+    /* 标签、归档等列表页：正文与头图底部留一点呼吸空间 */
+    body.esa-list-page #main {
+        padding-top: 22px !important;
+    }
+
+    /* 背景图底部的波浪显式贴住 svh 下沿，不再跟着旧 vh 高度漂 */
+    body:not(.esa-post-page) .wave {
+        top: calc(100svh - 110px);
+        bottom: auto;
     }
 
     /* 80px 的大标题在手机上会顶出屏幕，这里压到能完整显示 */
@@ -3235,6 +3275,13 @@ body.esa-post-page #main {
         max-width: 100%;
         font-size: 40px;
         letter-spacing: 1px;
+    }
+
+    .esa-hero-avatar {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 14px;
+        padding: 3px;
     }
 
     #mainContent .forFlow {
@@ -3362,6 +3409,14 @@ body.esa-post-page #main {
         color: #61687C;
         background: rgba(255, 255, 255, .9);
         box-shadow: 0 1px 6px rgba(0, 0, 0, .12);
+        transition: opacity .2s ease, transform .2s ease;
+    }
+
+    /* 向下阅读时让出内容区域；向上滑或回到首屏时重新出现 */
+    body.esa-menu-hidden .esa-mobile-menu {
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
     }
 
     .esa-mobile-menu:after {
